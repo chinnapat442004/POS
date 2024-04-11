@@ -14,10 +14,10 @@ export class Product {
   @Column()
   name: string;
 
-  @Column({ default: 'noimage.jpg' })
-  price: string;
-
   @Column()
+  price: number;
+
+  @Column({ default: 'noimage.jpg' })
   image: string;
 
   @CreateDateColumn()
