@@ -28,13 +28,6 @@ const rail = ref(true)
             value="pos"
             :to="{ name: 'pos' }"
           ></v-list-item>
-          <v-list-item prepend-icon="mdi-account" title="My Account" value="account"></v-list-item>
-          <v-list-item
-            prepend-icon="mdi-account-group-outline"
-            title="About"
-            value="about"
-            :to="{ name: 'about' }"
-          ></v-list-item>
         </v-list>
       </v-navigation-drawer>
       <v-main>

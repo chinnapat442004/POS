@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useProductStore } from '@/stores/product'
+import { onMounted, ref } from 'vue'
+const productStore = useProductStore()
 
+onMounted(() => {
+  productStore.getPorducts()
+})
 const tab = ref(null)
 </script>
 <template>
@@ -14,7 +19,11 @@ const tab = ref(null)
 
       <v-card-text>
         <v-window v-model="tab">
-          <v-window-item value="one"> One </v-window-item>
+          <v-window-item value="one">
+            One
+
+            {{ productStore.products }}
+          </v-window-item>
 
           <v-window-item value="two"> Two </v-window-item>
 
