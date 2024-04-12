@@ -50,24 +50,24 @@ export class ProductsController {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
-        destination: '.pubilc/images/products',
-        filename: (req, file, cd) => {
+        destination: './public/images/products',
+        filename: (req, image, cd) => {
           const name = uuid();
-          return cd(null, name + extname(file.originalname));
+          return cd(null, name + extname(image.originalname));
         },
       }),
     }),
   )
   uploadFile(
     @Body() createProductDto: CreateProductDto,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() image: Express.Multer.File,
   ) {
-    if (file) {
-      createProductDto.image = file.filename;
+    if (image) {
+      createProductDto.image = image.filename;
     }
     console.log(createProductDto);
-    console.log(file);
-    console.log(file.filename);
+    console.log(image);
+    console.log(image.filename);
     return this.productsService.create(createProductDto);
   }
 }
