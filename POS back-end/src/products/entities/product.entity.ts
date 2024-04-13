@@ -17,6 +17,9 @@ export class Product {
   @Column()
   price: number;
 
+  @Column()
+  type: string;
+
   @Column({ default: 'noimage.jpg' })
   image: string;
 
