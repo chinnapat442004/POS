@@ -17,6 +17,7 @@ export class ProductsService {
     if (createProductDto.image && createProductDto.image !== '') {
       product.image = createProductDto.image;
     }
+    product.type = createProductDto.type;
     return this.productsRepository.save(product);
   }
 
