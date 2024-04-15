@@ -1,9 +1,11 @@
+import { ReceiptItem } from 'src/receipt-items/entities/receipt-item.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -28,4 +30,7 @@ export class Product {
 
   @UpdateDateColumn()
   updated: Date;
+
+  @OneToMany(() => ReceiptItem, (receiptItem) => receiptItem.product)
+  receiptItems: ReceiptItem[];
 }
