@@ -106,13 +106,17 @@ const tab = ref(null)
             <thead style="background-color: rgb(50, 50, 50); color: white">
               <tr>
                 <th>Name</th>
-                <th>price</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Amount</th>
               </tr>
             </thead>
             <tbody style="background-color: rgb(180, 180, 180)">
               <tr v-for="item in receiptItemStore.receiptItems" :key="item.id">
                 <td>{{ item.product?.name }}</td>
                 <td>{{ item.product?.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.amount }}</td>
               </tr>
             </tbody>
           </v-table></v-card
