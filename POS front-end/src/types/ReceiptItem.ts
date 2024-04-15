@@ -1,4 +1,4 @@
-import type { Product } from './Procuct'
+import type { Product } from './Product'
 
 type ReceiptItme = {
   id?: number
