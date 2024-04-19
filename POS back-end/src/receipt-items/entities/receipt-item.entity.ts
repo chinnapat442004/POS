@@ -1,4 +1,5 @@
 import { Product } from 'src/products/entities/product.entity';
+import { Receipt } from 'src/receipts/entities/receipt.entity';
 import {
   Column,
   CreateDateColumn,
@@ -30,4 +31,7 @@ export class ReceiptItem {
 
   @ManyToOne(() => Product, (product) => product.receiptItems)
   product: Product;
+
+  @ManyToOne(() => Receipt, (receipt) => receipt.receiptItems)
+  receipt: Receipt;
 }

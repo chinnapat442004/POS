@@ -8,13 +8,15 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ReceiptItemsModule } from './receipt-items/receipt-items.module';
 import { ReceiptItem } from './receipt-items/entities/receipt-item.entity';
+import { ReceiptsModule } from './receipts/receipts.module';
+import { Receipt } from './receipts/entities/receipt.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database.sqlite',
-      entities: [Product, ReceiptItem],
+      entities: [Product, ReceiptItem, Receipt],
       synchronize: true,
     }),
     ServeStaticModule.forRoot({
@@ -22,6 +24,7 @@ import { ReceiptItem } from './receipt-items/entities/receipt-item.entity';
     }),
     ProductsModule,
     ReceiptItemsModule,
+    ReceiptsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
