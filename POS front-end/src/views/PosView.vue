@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { useProductStore } from '@/stores/product'
+import { useReceiptStore } from '@/stores/receipt'
 import { useReceiptItemStore } from '@/stores/receiptItem'
 import type { Product } from '@/types/Product'
 import { onMounted, ref } from 'vue'
 const productStore = useProductStore()
 const receiptItemStore = useReceiptItemStore()
+const receiptStore = useReceiptStore()
 
 onMounted(async () => {
   await productStore.getPorducts()
@@ -14,7 +16,6 @@ function selectReceiptItem(p: Product) {
   productStore.product = JSON.parse(JSON.stringify(p))
   receiptItemStore.addProduct(p)
   receiptItemStore.addReceiptItem(receiptItemStore.receiptItem)
-
   receiptItemStore.clear()
 }
 
@@ -24,14 +25,14 @@ const tab = ref(null)
   <v-container>
     <v-row>
       <v-col md="6">
-        <v-card max-width="700">
+        <v-card height="675" style="background-color: rgb(180, 180, 180)">
           <v-tabs v-model="tab" style="background-color: rgb(50, 50, 50); color: white">
             <v-tab value="one">Drinks</v-tab>
             <v-tab value="two">Foods</v-tab>
             <v-tab value="three">Desserts</v-tab>
           </v-tabs>
 
-          <v-window v-model="tab" style="background-color: rgb(180, 180, 180)">
+          <v-window v-model="tab">
             <v-window-item value="one">
               <v-container>
                 <v-row>
@@ -42,13 +43,20 @@ const tab = ref(null)
                     :key="item.id"
                     md="4"
                   >
-                    <v-card elevation="2" width="160" @click="selectReceiptItem(item)"
+                    <v-card
+                      elevation="2"
+                      width="160"
+                      height="180"
+                      style="border-radius: 15px"
+                      @click="selectReceiptItem(item)"
                       ><v-img
                         :src="`http://localhost:3000/images/products/${item.image}`"
                         height="150"
+                        width="160"
+                        cover
                       ></v-img>
-                      {{ item.name }}</v-card
-                    >
+                      <div style="text-align: center; margin-top: 3px">{{ item.name }}</div>
+                    </v-card>
                   </v-col>
                 </v-row></v-container
               >
@@ -64,12 +72,19 @@ const tab = ref(null)
                     :key="item.id"
                     md="4"
                   >
-                    <v-card elevation="2" width="160" @click="selectReceiptItem(item)"
+                    <v-card
+                      elevation="2"
+                      width="160"
+                      height="180"
+                      style="border-radius: 15px"
+                      @click="selectReceiptItem(item)"
                       ><v-img
                         :src="`http://localhost:3000/images/products/${item.image}`"
                         height="150"
+                        width="160"
+                        cover
                       ></v-img>
-                      {{ item.name }}</v-card
+                      <div style="text-align: center; margin-top: 3px">{{ item.name }}</div></v-card
                     >
                   </v-col>
                 </v-row></v-container
@@ -86,12 +101,23 @@ const tab = ref(null)
                     :key="item.id"
                     md="4"
                   >
-                    <v-card elevation="2" width="160" @click="selectReceiptItem(item)"
-                      ><v-img
-                        :src="`http://localhost:3000/images/products/${item.image}`"
-                        height="150"
-                      ></v-img>
-                      {{ item.name }}</v-card
+                    <v-card
+                      elevation="2"
+                      width="160"
+                      height="180"
+                      style="border-radius: 15px"
+                      @click="selectReceiptItem(item)"
+                      ><div>
+                        <v-img
+                          :src="`http://localhost:3000/images/products/${item.image}`"
+                          height="150"
+                          width="160"
+                          cover
+                        ></v-img>
+                      </div>
+                      <div style="text-align: center; margin-top: 3px">
+                        {{ item.name }}
+                      </div></v-card
                     >
                   </v-col>
                 </v-row></v-container
@@ -100,15 +126,16 @@ const tab = ref(null)
           </v-window>
         </v-card>
       </v-col>
+
       <v-col md="6"
-        ><v-card width="700" height="450"
+        ><v-card height="440" style="background-color: rgb(180, 180, 180)"
           ><v-table>
             <thead style="background-color: rgb(50, 50, 50); color: white">
               <tr>
                 <th>Name</th>
-                <th>Price</th>
+                <th>Unit Price</th>
                 <th>Quantity</th>
-                <th>Amount</th>
+                <th>Total</th>
               </tr>
             </thead>
             <tbody style="background-color: rgb(180, 180, 180)">
@@ -116,11 +143,15 @@ const tab = ref(null)
                 <td>{{ item.product?.name }}</td>
                 <td>{{ item.product?.price }}</td>
                 <td>{{ item.quantity }}</td>
-                <td>{{ item.amount }}</td>
+                <td>{{ item.total }}</td>
               </tr>
             </tbody>
           </v-table></v-card
         >
+        <v-container></v-container>
+        <v-card height="200" style="background-color: rgb(180, 180, 180)">
+          <div>Total {{ receiptStore.receipt.total }}</div>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>

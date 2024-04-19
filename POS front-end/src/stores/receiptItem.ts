@@ -3,11 +3,13 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 import type { Product } from '@/types/Product'
+import { useReceiptStore } from './receipt'
 
 export const useReceiptItemStore = defineStore('receiptItem', () => {
+  const receiptStore = useReceiptStore()
   const initialReceiptItem: ReceiptItme = {
     quantity: 1,
-    amount: 0,
+    total: 0,
     product: {
       name: '',
       price: 0
@@ -28,12 +30,14 @@ export const useReceiptItemStore = defineStore('receiptItem', () => {
 
     if (index == -1 && receiptItem) {
       receiptItems.value.push(receiptItem)
-      receiptItem.amount = receiptItem.quantity * receiptItem.product.price
+      receiptItem.total = receiptItem.quantity * receiptItem.product.price
     } else {
       receiptItems.value[index].quantity += 1
-      receiptItems.value[index].amount =
+      receiptItems.value[index].total =
         receiptItems.value[index].quantity * receiptItems.value[index].product.price
     }
+
+    receiptStore.calTotal()
   }
 
   function clear() {
