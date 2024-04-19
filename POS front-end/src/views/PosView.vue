@@ -3,6 +3,7 @@ import { useProductStore } from '@/stores/product'
 import { useReceiptStore } from '@/stores/receipt'
 import { useReceiptItemStore } from '@/stores/receiptItem'
 import type { Product } from '@/types/Product'
+import type { ReceiptItme } from '@/types/ReceiptItem'
 import { onMounted, ref } from 'vue'
 const productStore = useProductStore()
 const receiptItemStore = useReceiptItemStore()
@@ -20,6 +21,22 @@ function selectReceiptItem(p: Product) {
 }
 
 const tab = ref(null)
+
+function minus(item: ReceiptItme) {
+  item.quantity -= 1
+  const index = receiptItemStore.receiptItems.indexOf(item)
+  item.total -= item.product.price
+  if (item.quantity == 0) {
+    receiptItemStore.receiptItems.splice(index, 1)
+  }
+  receiptStore.calTotal()
+}
+
+function plus(item: ReceiptItme) {
+  item.quantity += 1
+  item.total += item.product.price
+  receiptStore.calTotal()
+}
 </script>
 <template>
   <v-container>
@@ -134,6 +151,7 @@ const tab = ref(null)
               <tr>
                 <th>Name</th>
                 <th>Unit Price</th>
+
                 <th>Quantity</th>
                 <th>Total</th>
               </tr>
@@ -142,7 +160,24 @@ const tab = ref(null)
               <tr v-for="item in receiptItemStore.receiptItems" :key="item.id">
                 <td>{{ item.product?.name }}</td>
                 <td>{{ item.product?.price }}</td>
-                <td>{{ item.quantity }}</td>
+
+                <td>
+                  <v-row>
+                    <v-btn
+                      style="margin-right: 7px"
+                      density="compact"
+                      icon="mdi-minus"
+                      @click="minus(item)"
+                    ></v-btn
+                    >{{ item.quantity
+                    }}<v-btn
+                      style="margin-left: 7px"
+                      density="compact"
+                      icon="mdi-plus"
+                      @click="plus(item)"
+                    ></v-btn>
+                  </v-row>
+                </td>
                 <td>{{ item.total }}</td>
               </tr>
             </tbody>
