@@ -7,9 +7,15 @@ const rail = ref(true)
 
 <template>
   <v-layout>
-    <v-navigation-drawer v-model="drawer" :rail="rail" permanent @click="rail = false">
+    <v-navigation-drawer
+      v-model="drawer"
+      :rail="rail"
+      permanent
+      @click="rail = false"
+      style="background-color: #4f5d75"
+    >
       <v-list-item
-        style="background-color: rgb(50, 50, 50); color: white"
+        style="background-color: #0d1b2a; color: white"
         prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
         title="John Leider"
         nav
@@ -23,6 +29,7 @@ const rail = ref(true)
 
       <v-list density="compact" nav>
         <v-list-item
+          style="background-color: white"
           prepend-icon="mdi-coffee"
           title="Point of Sale"
           value="pos"

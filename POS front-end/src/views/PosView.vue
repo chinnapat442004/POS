@@ -42,8 +42,8 @@ function plus(item: ReceiptItme) {
   <v-container>
     <v-row>
       <v-col md="6">
-        <v-card height="675" style="background-color: rgb(180, 180, 180)">
-          <v-tabs v-model="tab" style="background-color: rgb(50, 50, 50); color: white">
+        <v-card height="675" style="background-color: white; border-radius: 10px">
+          <v-tabs v-model="tab" style="background-color: #0d1b2a; color: white">
             <v-tab value="one">Drinks</v-tab>
             <v-tab value="two">Foods</v-tab>
             <v-tab value="three">Desserts</v-tab>
@@ -61,10 +61,10 @@ function plus(item: ReceiptItme) {
                     md="4"
                   >
                     <v-card
-                      elevation="2"
+                      elevation="5"
                       width="160"
                       height="180"
-                      style="border-radius: 15px"
+                      style="border-radius: 15px; background-color: #e1e5f2"
                       @click="selectReceiptItem(item)"
                       ><v-img
                         :src="`http://localhost:3000/images/products/${item.image}`"
@@ -90,10 +90,10 @@ function plus(item: ReceiptItme) {
                     md="4"
                   >
                     <v-card
-                      elevation="2"
+                      elevation="5"
                       width="160"
                       height="180"
-                      style="border-radius: 15px"
+                      style="border-radius: 15px; background-color: #e1e5f2"
                       @click="selectReceiptItem(item)"
                       ><v-img
                         :src="`http://localhost:3000/images/products/${item.image}`"
@@ -119,10 +119,10 @@ function plus(item: ReceiptItme) {
                     md="4"
                   >
                     <v-card
-                      elevation="2"
+                      elevation="5"
                       width="160"
                       height="180"
-                      style="border-radius: 15px"
+                      style="border-radius: 15px; background-color: #e1e5f2"
                       @click="selectReceiptItem(item)"
                       ><div>
                         <v-img
@@ -145,22 +145,21 @@ function plus(item: ReceiptItme) {
       </v-col>
 
       <v-col md="6"
-        ><v-card height="440" style="background-color: rgb(180, 180, 180)"
-          ><v-table>
-            <thead style="background-color: rgb(50, 50, 50); color: white">
+        ><v-card height="auto"
+          ><v-table height="370" style="background-color: white" class="no-header-scroll">
+            <thead style="background-color: #0d1b2a; color: white">
               <tr>
                 <th>Name</th>
                 <th>Unit Price</th>
-
                 <th>Quantity</th>
                 <th>Total</th>
               </tr>
             </thead>
-            <tbody style="background-color: rgb(180, 180, 180)">
+
+            <tbody style="background-color: white">
               <tr v-for="item in receiptItemStore.receiptItems" :key="item.id">
                 <td>{{ item.product?.name }}</td>
                 <td>{{ item.product?.price }}</td>
-
                 <td>
                   <v-row>
                     <v-btn
@@ -184,8 +183,8 @@ function plus(item: ReceiptItme) {
           </v-table></v-card
         >
         <v-container></v-container>
-        <v-card height="200" style="background-color: rgb(180, 180, 180)">
-          <div>Total {{ receiptStore.receipt.total }}</div>
+        <v-card height="200" style="background-color: white">
+          <div>Total {{ receiptStore.receipt.total }} Baht</div>
         </v-card>
       </v-col>
     </v-row>
