@@ -14,7 +14,7 @@ onMounted(async () => {
 })
 
 function selectReceiptItem(p: Product) {
-  productStore.product = JSON.parse(JSON.stringify(p))
+  productStore.editedProduct = JSON.parse(JSON.stringify(p))
   receiptItemStore.addProduct(p)
   receiptItemStore.addReceiptItem(receiptItemStore.receiptItem)
   receiptItemStore.clear()

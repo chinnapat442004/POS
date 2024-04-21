@@ -8,18 +8,24 @@ export const useProductStore = defineStore('product', () => {
 
   const initialProduct: Product = {
     name: '',
-    price: 0
+    price: 0,
+    image: 'noimage.jpg'
   }
 
-  const product = ref(<Product>JSON.parse(JSON.stringify(initialProduct)))
+  const editedProduct = ref(<Product>JSON.parse(JSON.stringify(initialProduct)))
 
   async function getPorducts() {
     const res = await porductService.getProduct()
     products.value = res.data
   }
+
+  function clear() {
+    editedProduct.value = JSON.parse(JSON.stringify(initialProduct))
+  }
   return {
     getPorducts,
+    clear,
     products,
-    product
+    editedProduct
   }
 })

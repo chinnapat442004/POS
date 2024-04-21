@@ -1,14 +1,23 @@
 <script setup lang="ts">
 import { useProductStore } from '@/stores/product'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, provide } from 'vue'
+import EditedProductDialog from './EditedProductDialog.vue'
+import type { Product } from '@/types/Product'
 
 const productStore = useProductStore()
+const search = ref('')
+
+const dialog = ref(false)
+provide('editedProcuctDialog', dialog)
 
 onMounted(async () => {
   await productStore.getPorducts()
 })
 
-const search = ref('')
+function open(item: Product) {
+  productStore.editedProduct = Object.assign({}, item)
+  dialog.value = true
+}
 
 const headers = [
   { title: 'Id', value: 'id', key: 'id' },
@@ -45,55 +54,7 @@ const headers = [
                 single-line
                 color="white"
               ></v-text-field>
-
-              <v-dialog v-model="dialog" max-width="500px">
-                <template v-slot:activator="{ props }">
-                  <v-btn class="mb-2" color="primary" dark v-bind="props"> New Item </v-btn>
-                </template>
-                <v-card>
-                  <v-card-title>
-                    <span class="text-h5">{{ formTitle }}</span>
-                  </v-card-title>
-
-                  <v-card-text>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12" md="4" sm="6">
-                          <v-text-field
-                            v-model="productStore.products"
-                            label="Id"
-                            value="id"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="4" sm="6">
-                          <v-text-field
-                            v-model="editedItem.calories"
-                            label="Calories"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="4" sm="6">
-                          <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="4" sm="6">
-                          <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="4" sm="6">
-                          <v-text-field
-                            v-model="editedItem.protein"
-                            label="Protein (g)"
-                          ></v-text-field>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-card-text>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue-darken-1" variant="text" @click="close"> Cancel </v-btn>
-                    <v-btn color="blue-darken-1" variant="text" @click="save"> Save </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
+              <edited-product-dialog></edited-product-dialog>
               <v-dialog v-model="dialogDelete" max-width="500px">
                 <v-card>
                   <v-card-title class="text-h5"
@@ -122,7 +83,7 @@ const headers = [
             </v-img>
           </template>
           <template v-slot:item.actions="{ item }">
-            <v-icon class="me-2" size="small" @click="editItem(item)"> mdi-pencil </v-icon>
+            <v-icon class="me-2" size="small" @click="open(item)"> mdi-pencil </v-icon>
             <v-icon size="small" @click="deleteItem(item)"> mdi-delete </v-icon>
           </template>
           <template v-slot:no-data>
