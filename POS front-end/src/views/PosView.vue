@@ -42,7 +42,7 @@ function plus(item: ReceiptItme) {
   <v-container>
     <v-row>
       <v-col md="6">
-        <v-card height="675" style="background-color: white; border-radius: 10px">
+        <v-card height="675" style="background-color: white; border-radius: 10px" elevation="5">
           <v-tabs v-model="tab" style="background-color: #0d1b2a; color: white">
             <v-tab value="one">Drinks</v-tab>
             <v-tab value="two">Foods</v-tab>
@@ -145,8 +145,8 @@ function plus(item: ReceiptItme) {
       </v-col>
 
       <v-col md="6"
-        ><v-card height="auto"
-          ><v-table height="370" style="background-color: white" class="no-header-scroll">
+        ><v-card height="auto" elevation="5"
+          ><v-table height="310" style="background-color: white" class="no-header-scroll">
             <thead style="background-color: #0d1b2a; color: white">
               <tr>
                 <th>Name</th>
@@ -183,7 +183,10 @@ function plus(item: ReceiptItme) {
           </v-table></v-card
         >
         <v-container></v-container>
-        <v-card height="200" style="background-color: white">
+
+        <v-card height="150" elevation="5"> </v-card>
+        <v-container></v-container>
+        <v-card height="150" elevation="5">
           <div>Total {{ receiptStore.receipt.total }} Baht</div>
         </v-card>
       </v-col>

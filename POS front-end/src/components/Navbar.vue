@@ -35,6 +35,13 @@ const rail = ref(true)
           value="pos"
           :to="{ name: 'pos' }"
         ></v-list-item>
+        <v-list-item
+          style="background-color: white"
+          prepend-icon="mdi-food"
+          title="Procudt"
+          value="product"
+          :to="{ name: 'product' }"
+        ></v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-main class="align-center justify-center" style="min-height: 300px">
