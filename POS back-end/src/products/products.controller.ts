@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseInterceptors,
@@ -36,11 +35,6 @@ export class ProductsController {
     return this.productsService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(+id, updateProductDto);
-  }
-
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.productsService.remove(+id);
@@ -58,16 +52,40 @@ export class ProductsController {
       }),
     }),
   )
-  uploadFile(
+  create(
     @Body() createProductDto: CreateProductDto,
     @UploadedFile() image: Express.Multer.File,
   ) {
     if (image) {
       createProductDto.image = image.filename;
     }
-    console.log(createProductDto);
+
+    return this.productsService.create(createProductDto);
+  }
+
+  @Post(':id')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './public/images/products',
+        filename: (req, image, cd) => {
+          const name = uuid();
+          return cd(null, name + extname(image.originalname));
+        },
+      }),
+    }),
+  )
+  update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+    @UploadedFile() image: Express.Multer.File,
+  ) {
+    if (image) {
+      updateProductDto.image = image.filename;
+    }
+    console.log(updateProductDto);
     console.log(image);
     console.log(image.filename);
-    return this.productsService.create(createProductDto);
+    return this.productsService.update(+id, updateProductDto);
   }
 }

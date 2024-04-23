@@ -26,14 +26,31 @@ export class ProductsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} product`;
+    return this.productsRepository.findOne({
+      where: { id },
+    });
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    const product = await this.productsRepository.findOneOrFail({
+      where: { id },
+    });
+
+    product.name = updateProductDto.name;
+    product.price = parseFloat(updateProductDto.price);
+    product.category = updateProductDto.category;
+    if (product.image && product.image != '') {
+      product.image = updateProductDto.image;
+    }
+    product.image = updateProductDto.image;
+    return this.productsRepository.save(product);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: number) {
+    const product = await this.productsRepository.findOneOrFail({
+      where: { id },
+    });
+
+    return this.productsRepository.remove(product);
   }
 }
