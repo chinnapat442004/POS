@@ -10,7 +10,7 @@ const receiptItemStore = useReceiptItemStore()
 const receiptStore = useReceiptStore()
 
 onMounted(async () => {
-  await productStore.getPorducts()
+  await productStore.getProducts()
 })
 
 function selectReceiptItem(p: Product) {

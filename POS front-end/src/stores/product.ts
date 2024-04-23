@@ -1,6 +1,6 @@
 import type { Product } from '@/types/Product'
 import { defineStore } from 'pinia'
-import porductService from '@/service/product'
+import productService from '@/service/product'
 import { ref } from 'vue'
 
 export const useProductStore = defineStore('product', () => {
@@ -16,9 +16,14 @@ export const useProductStore = defineStore('product', () => {
 
   const editedProduct = ref(<Product & { files: File[] }>JSON.parse(JSON.stringify(initialProduct)))
 
-  async function getPorducts() {
-    const res = await porductService.getProduct()
+  async function getProducts() {
+    const res = await productService.getProducts()
     products.value = res.data
+  }
+
+  async function getProduct(product: Product & { files: File[] }) {
+    const res = await productService.getProduct(product)
+    editedProduct.value = res.data
   }
 
   async function addProcduct() {
@@ -26,8 +31,9 @@ export const useProductStore = defineStore('product', () => {
     console.log(product.id)
 
     if (!product.id) {
-      const res = await porductService.addProcduct(product)
-      console.log(res)
+      await productService.addProcduct(product)
+    } else {
+      await productService.updateProduct(product)
     }
   }
 
@@ -35,7 +41,8 @@ export const useProductStore = defineStore('product', () => {
     editedProduct.value = JSON.parse(JSON.stringify(initialProduct))
   }
   return {
-    getPorducts,
+    getProducts,
+    getProduct,
     clear,
     addProcduct,
     products,
