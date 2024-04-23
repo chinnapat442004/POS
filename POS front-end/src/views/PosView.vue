@@ -37,12 +37,21 @@ function plus(item: ReceiptItme) {
   item.total += item.product.price
   receiptStore.calTotal()
 }
+
+function clearReceiptItems() {
+  receiptItemStore.receiptItems = []
+  receiptStore.receipt.total = 0
+}
 </script>
 <template>
   <v-container>
     <v-row>
       <v-col md="6">
-        <v-card height="675" style="background-color: white; border-radius: 10px" elevation="5">
+        <v-card
+          height="675"
+          style="background-color: white; border-radius: 10px; overflow-y: auto"
+          elevation="5"
+        >
           <v-tabs v-model="tab" style="background-color: #0d1b2a; color: white">
             <v-tab value="one">Drinks</v-tab>
             <v-tab value="two">Foods</v-tab>
@@ -71,6 +80,7 @@ function plus(item: ReceiptItme) {
                         height="150"
                         width="160"
                         cover
+                        style="pointer-events: none"
                       ></v-img>
                       <div style="text-align: center; margin-top: 3px">{{ item.name }}</div>
                     </v-card>
@@ -99,6 +109,7 @@ function plus(item: ReceiptItme) {
                         :src="`http://localhost:3000/images/products/${item.image}`"
                         height="150"
                         width="160"
+                        style="pointer-events: none"
                         cover
                       ></v-img>
                       <div style="text-align: center; margin-top: 3px">{{ item.name }}</div></v-card
@@ -130,6 +141,7 @@ function plus(item: ReceiptItme) {
                           height="150"
                           width="160"
                           cover
+                          style="pointer-events: none"
                         ></v-img>
                       </div>
                       <div style="text-align: center; margin-top: 3px">
@@ -146,7 +158,7 @@ function plus(item: ReceiptItme) {
 
       <v-col md="6"
         ><v-card height="auto" elevation="5"
-          ><v-table height="310" style="background-color: white" class="no-header-scroll">
+          ><v-table height="290" style="background-color: white" class="no-header-scroll">
             <thead style="background-color: #0d1b2a; color: white">
               <tr>
                 <th>Name</th>
@@ -184,11 +196,27 @@ function plus(item: ReceiptItme) {
         >
         <v-container></v-container>
 
-        <v-card height="150" elevation="5"> </v-card>
+        <v-card height="125" elevation="5"> </v-card>
         <v-container></v-container>
-        <v-card height="150" elevation="5">
+        <v-card height="125" elevation="5">
           <div>Total {{ receiptStore.receipt.total }} Baht</div>
         </v-card>
+        <v-container></v-container>
+        <v-row>
+          <v-col md="6">
+            <v-btn
+              width="100%"
+              style="background-color: #fe6d73; color: white"
+              @click="clearReceiptItems()"
+              >cancel
+            </v-btn></v-col
+          >
+          <v-col md="6"
+            ><v-btn width="100%" style="background-color: #588157; color: white">
+              save</v-btn
+            ></v-col
+          >
+        </v-row>
       </v-col>
     </v-row>
   </v-container>

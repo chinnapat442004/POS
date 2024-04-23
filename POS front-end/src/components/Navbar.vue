@@ -29,18 +29,24 @@ const rail = ref(true)
 
       <v-list density="compact" nav>
         <v-list-item
-          style="background-color: white"
+          class="list"
           prepend-icon="mdi-coffee"
           title="Point of Sale"
           value="pos"
           :to="{ name: 'pos' }"
         ></v-list-item>
         <v-list-item
-          style="background-color: white"
+          class="list"
           prepend-icon="mdi-food"
           title="Procudt"
           value="product"
           :to="{ name: 'product' }"
+        ></v-list-item>
+        <v-list-item
+          class="list"
+          prepend-icon="mdi-account-group"
+          title="Employee"
+          value="Employee"
         ></v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -49,3 +55,12 @@ const rail = ref(true)
     </v-main>
   </v-layout>
 </template>
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Display:wght@500&family=Varela+Round&display=swap');
+.list {
+  font-family: 'Varela Round', sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  background-color: #e1e5f2;
+}
+</style>
