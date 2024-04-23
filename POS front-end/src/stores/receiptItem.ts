@@ -13,7 +13,8 @@ export const useReceiptItemStore = defineStore('receiptItem', () => {
     product: {
       name: '',
       price: 0,
-      image: 'noimage.jpg'
+      image: 'noimage.jpg',
+      category: ''
     }
   }
   const receiptItems = ref(<ReceiptItme[]>[])

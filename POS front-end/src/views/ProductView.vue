@@ -14,7 +14,7 @@ onMounted(async () => {
   await productStore.getPorducts()
 })
 
-function open(item: Product) {
+function open(item: Product & { file: File[] }) {
   productStore.editedProduct = Object.assign({}, item)
   dialog.value = true
 }
@@ -40,21 +40,28 @@ const headers = [
         >
           <template v-slot:top>
             <v-toolbar flat style="background-color: #0d1b2a; color: white; margin-top: 12px">
-              <v-toolbar-title style="background-color: #0d1b2a; color: white"
-                >Product</v-toolbar-title
-              >
+              <v-toolbar-title style="background-color: #0d1b2a; color: white">
+                <v-row
+                  ><v-col md="5">
+                    <div style="margin: 10px 0px 0px 10px; font-size: 25px">Product</div>
+                  </v-col>
+                  <v-col md="5">
+                    <v-text-field
+                      style="background: white; color: #0d1b2a; border-radius: 15px"
+                      v-model="search"
+                      label="Search"
+                      prepend-inner-icon="mdi-magnify"
+                      variant="outlined"
+                      hide-details
+                      single-line
+                      color="white"
+                    ></v-text-field
+                  ></v-col>
+                  <v-col md="2">
+                    <div style="margin: 10px 10px 0px 0px">
+                      <edited-product-dialog></edited-product-dialog></div></v-col></v-row
+              ></v-toolbar-title>
 
-              <v-text-field
-                style="background: white; color: #0d1b2a; border-radius: 15px"
-                v-model="search"
-                label="Search"
-                prepend-inner-icon="mdi-magnify"
-                variant="outlined"
-                hide-details
-                single-line
-                color="white"
-              ></v-text-field>
-              <edited-product-dialog></edited-product-dialog>
               <v-dialog v-model="dialogDelete" max-width="500px">
                 <v-card>
                   <v-card-title class="text-h5"
@@ -78,7 +85,12 @@ const headers = [
               width="150"
               height="130"
               cover
-              style="border-radius: 15px; margin-top: 10px; margin-bottom: 10px"
+              style="
+                border-radius: 15px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                pointer-events: none;
+              "
             >
             </v-img>
           </template>
