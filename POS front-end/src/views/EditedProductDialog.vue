@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useProductStore } from '@/stores/product'
-import { inject, ref, type Ref } from 'vue'
+import { inject, onMounted, ref, type Ref } from 'vue'
 const productStore = useProductStore()
 const dialog = inject<Ref<boolean>>('editedProcuctDialog')
 
@@ -11,11 +11,16 @@ async function close() {
 
 async function save() {
   if (dialog) {
-    productStore.addProcduct()
+    await productStore.addProcduct()
     dialog.value = false
-    await productStore.getPorducts()
+    await productStore.getProducts()
     await productStore.clear()
   }
+}
+
+async function openDialog() {
+  if (dialog) dialog.value = true
+  await productStore.clear()
 }
 
 const items = ref(['drink', 'food', 'dessert'])
@@ -39,7 +44,7 @@ const items = ref(['drink', 'food', 'dessert'])
         class="mb-2"
         dark
         v-bind="props"
-        @click="dialog = true"
+        @click="openDialog()"
         width="150  "
         style="background-color: #6792bd"
         prepend-icon="mdi-plus"
@@ -84,7 +89,7 @@ const items = ref(['drink', 'food', 'dessert'])
               <v-card height="150" width="160">
                 <v-img
                   :src="`http://localhost:3000/images/products/${productStore.editedProduct.image}`"
-                  v-model="productStore.editedProduct.image"
+                  v-model="productStore.editedProduct.files"
                   height="150"
                   width="160"
                   cover

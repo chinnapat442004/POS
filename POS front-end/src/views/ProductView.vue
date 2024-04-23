@@ -11,11 +11,13 @@ const dialog = ref(false)
 provide('editedProcuctDialog', dialog)
 
 onMounted(async () => {
-  await productStore.getPorducts()
+  await productStore.getProducts()
 })
 
-function open(item: Product & { file: File[] }) {
-  productStore.editedProduct = Object.assign({}, item)
+function open(item: Product & { files: File[] }) {
+  productStore.getProduct(item)
+  // productStore.editedProduct = Object.assign({}, item)
+  console.log(item)
   dialog.value = true
 }
 
