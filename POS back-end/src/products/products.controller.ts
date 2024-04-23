@@ -83,9 +83,7 @@ export class ProductsController {
     if (image) {
       updateProductDto.image = image.filename;
     }
-    console.log(updateProductDto);
-    console.log(image);
-    console.log(image.filename);
+
     return this.productsService.update(+id, updateProductDto);
   }
 }
