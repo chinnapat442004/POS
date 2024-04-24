@@ -37,6 +37,10 @@ export const useProductStore = defineStore('product', () => {
     }
   }
 
+  async function deleteProduct(product: Product) {
+    await productService.deleteProduct(product)
+  }
+
   function clear() {
     editedProduct.value = JSON.parse(JSON.stringify(initialProduct))
   }
@@ -45,6 +49,7 @@ export const useProductStore = defineStore('product', () => {
     getProduct,
     clear,
     addProcduct,
+    deleteProduct,
     products,
     editedProduct
   }

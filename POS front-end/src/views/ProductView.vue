@@ -3,9 +3,12 @@ import { useProductStore } from '@/stores/product'
 import { onMounted, ref, provide } from 'vue'
 import EditedProductDialog from './EditedProductDialog.vue'
 import type { Product } from '@/types/Product'
+import DeleteProductDialog from './DeleteProductDialog.vue'
 
 const productStore = useProductStore()
 const search = ref('')
+const deleteDialog = ref(false)
+provide('deleteDialog', deleteDialog)
 
 const dialog = ref(false)
 provide('editedProcuctDialog', dialog)
@@ -16,9 +19,15 @@ onMounted(async () => {
 
 function open(item: Product & { files: File[] }) {
   productStore.getProduct(item)
+
   // productStore.editedProduct = Object.assign({}, item)
-  console.log(item)
   dialog.value = true
+}
+
+function deleteItem(item: Product & { files: File[] }) {
+  productStore.editedProduct = Object.assign({}, item)
+  productStore.getProduct(item)
+  deleteDialog.value = true
 }
 
 const headers = [
@@ -63,22 +72,6 @@ const headers = [
                     <div style="margin: 10px 10px 0px 0px">
                       <edited-product-dialog></edited-product-dialog></div></v-col></v-row
               ></v-toolbar-title>
-
-              <v-dialog v-model="dialogDelete" max-width="500px">
-                <v-card>
-                  <v-card-title class="text-h5"
-                    >Are you sure you want to delete this item?</v-card-title
-                  >
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue-darken-1" variant="text" @click="closeDelete">Cancel</v-btn>
-                    <v-btn color="blue-darken-1" variant="text" @click="deleteItemConfirm"
-                      >OK</v-btn
-                    >
-                    <v-spacer></v-spacer>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
             </v-toolbar>
           </template>
           <template v-slot:item.image="{ item }">
@@ -100,11 +93,9 @@ const headers = [
             <v-icon class="me-2" size="small" @click="open(item)"> mdi-pencil </v-icon>
             <v-icon size="small" @click="deleteItem(item)"> mdi-delete </v-icon>
           </template>
-          <template v-slot:no-data>
-            <v-btn color="primary" @click="initialize"> Reset </v-btn>
-          </template>
         </v-data-table>
       </v-row>
     </v-card>
   </v-container>
+  <DeleteProductDialog></DeleteProductDialog>
 </template>

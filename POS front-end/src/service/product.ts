@@ -33,4 +33,8 @@ function getProduct(product: Product) {
   return http.get(`/products/${product.id}`)
 }
 
-export default { getProducts, getProduct, addProcduct, updateProduct }
+function deleteProduct(product: Product) {
+  return http.delete(`/products/${product.id}`)
+}
+
+export default { getProducts, getProduct, addProcduct, updateProduct, deleteProduct }
