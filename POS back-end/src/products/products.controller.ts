@@ -13,17 +13,12 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
-
-  // @Post()
-  // create(@Body() createProductDto: CreateProductDto) {
-  //   return this.productsService.create(createProductDto);
-  // }
 
   @Get()
   findAll() {
@@ -46,7 +41,7 @@ export class ProductsController {
       storage: diskStorage({
         destination: './public/images/products',
         filename: (req, image, cd) => {
-          const name = uuid();
+          const name = uuidv4();
           return cd(null, name + extname(image.originalname));
         },
       }),
@@ -69,7 +64,7 @@ export class ProductsController {
       storage: diskStorage({
         destination: './public/images/products',
         filename: (req, image, cd) => {
-          const name = uuid();
+          const name = uuidv4();
           return cd(null, name + extname(image.originalname));
         },
       }),

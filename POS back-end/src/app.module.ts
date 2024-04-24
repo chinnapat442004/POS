@@ -10,13 +10,15 @@ import { ReceiptItemsModule } from './receipt-items/receipt-items.module';
 import { ReceiptItem } from './receipt-items/entities/receipt-item.entity';
 import { ReceiptsModule } from './receipts/receipts.module';
 import { Receipt } from './receipts/entities/receipt.entity';
+import { EmployeesModule } from './employees/employees.module';
+import { Employee } from './employees/entities/employee.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database.sqlite',
-      entities: [Product, ReceiptItem, Receipt],
+      entities: [Product, ReceiptItem, Receipt, Employee],
       synchronize: true,
     }),
     ServeStaticModule.forRoot({
@@ -25,6 +27,7 @@ import { Receipt } from './receipts/entities/receipt.entity';
     ProductsModule,
     ReceiptItemsModule,
     ReceiptsModule,
+    EmployeesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
