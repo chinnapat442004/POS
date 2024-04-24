@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useProductStore } from '@/stores/product'
-import { inject, onMounted, ref, type Ref } from 'vue'
+import { inject, ref, type Ref } from 'vue'
 const productStore = useProductStore()
 const dialog = inject<Ref<boolean>>('editedProcuctDialog')
 
