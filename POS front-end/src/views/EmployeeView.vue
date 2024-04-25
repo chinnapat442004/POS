@@ -1,21 +1,30 @@
 <script setup lang="ts">
 import { onMounted, ref, provide } from 'vue'
-import EditedProductDialog from './EditedProductDialog.vue'
-import type { Product } from '@/types/Product'
-
+import EditedEmployeeDialog from './EditedEmployeeDialog.vue'
+import DeleteEmployeeDialog from './DeleteEmployeeDialog.vue'
 import { useEmployeeStore } from '@/stores/employee'
+import type { Employee } from '@/types/Employee'
 
 const employeeStore = useEmployeeStore()
 const search = ref('')
 const deleteDialog = ref(false)
-provide('deleteDialog', deleteDialog)
+provide('deleteEmployeeDialog', deleteDialog)
 
 const dialog = ref(false)
-provide('editedProcuctDialog', dialog)
+provide('editedEmployeeDialog', dialog)
 
 onMounted(async () => {
   await employeeStore.getEmployees()
 })
+
+async function open(item: Employee & { files: File[] }) {
+  await employeeStore.clearEditedEmployee()
+  employeeStore.editedEmployee = await Object.assign({}, item)
+  dialog.value = true
+}
+function deleteItem() {
+  deleteDialog.value = true
+}
 
 const headers = [
   { title: 'Id', value: 'id', key: 'id' },
@@ -55,7 +64,10 @@ const headers = [
                     color="white"
                   ></v-text-field
                 ></v-col>
-                <v-col md="2"> </v-col></v-row
+                <v-col md="2">
+                  <div style="margin: 10px 10px 0px 0px">
+                    <edited-employee-dialog></edited-employee-dialog>
+                  </div> </v-col></v-row
             ></v-toolbar-title>
           </v-toolbar>
         </template>
@@ -77,5 +89,5 @@ const headers = [
     </v-row>
   </v-card>
 
-  <!-- <DeleteProductDialog></DeleteProductDialog> -->
+  <delete-employee-dialog></delete-employee-dialog>
 </template>
