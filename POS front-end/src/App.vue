@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import Navbar from './components/Navbar.vue'
+import { useRoute } from 'vue-router'
+import FullLayout from './layout/fullLayout.vue'
+import MainLayout from './layout/mainLayout.vue'
+
+const route = useRoute()
 </script>
 
 <template>
-  <Navbar></Navbar>
+  <component :is="route.meta.layout === 'fullLayout' ? FullLayout : MainLayout"></component>
 </template>

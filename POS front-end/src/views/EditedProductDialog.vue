@@ -72,6 +72,8 @@ const items = ref(['drink', 'food', 'dessert'])
                 variant="outlined"
                 v-model="productStore.editedProduct.price"
                 label="Price"
+                type="number"
+                min="0"
                 bg-color="blue-grey-lighten-5"
               ></v-text-field>
             </v-col>
@@ -110,7 +112,7 @@ const items = ref(['drink', 'food', 'dessert'])
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue-darken-1" variant="text" @click="close()"> Cancel </v-btn>
+        <v-btn color="red" variant="text" @click="close()"> Cancel </v-btn>
         <v-btn color="blue-darken-1" variant="text" @click="save()"> Save </v-btn>
       </v-card-actions>
     </v-card>
