@@ -7,7 +7,10 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: {
+        layout: 'fullLayout'
+      }
     },
     {
       path: '/pos',
@@ -15,7 +18,14 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/PosView.vue')
+      components: {
+        default: () => import('../views/PosView.vue'),
+        menu: () => import('../components/Navbar.vue')
+      },
+
+      meta: {
+        layout: 'mainLaout'
+      }
     },
     {
       path: '/product',
@@ -23,7 +33,13 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/ProductView.vue')
+      components: {
+        default: () => import('../views/ProductView.vue'),
+        menu: () => import('../components/Navbar.vue')
+      },
+      meta: {
+        layout: 'mainLaout'
+      }
     },
     {
       path: '/employee',
@@ -31,7 +47,13 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/EmployeeView.vue')
+      components: {
+        default: () => import('../views/EmployeeView.vue'),
+        menu: () => import('../components/Navbar.vue')
+      },
+      meta: {
+        layout: 'mainLaout'
+      }
     }
   ]
 })
