@@ -6,10 +6,25 @@ import employeeService from '@/service/employee'
 export const useEmployeeStore = defineStore('employee', () => {
   const employees = ref(<Employee[]>[])
 
+  const initialEmployee: Employee & { files: File[] } = {
+    email: '',
+    password: '',
+    name: '',
+    role: '',
+    image: 'noimage.jpg',
+    files: []
+  }
+  const editedEmployee = ref(
+    <Employee & { files: File[] }>JSON.parse(JSON.stringify(initialEmployee))
+  )
   async function getEmployees() {
     const res = await employeeService.getEmployees()
     employees.value = res.data
   }
 
-  return { getEmployees, employees }
+  function clearEditedEmployee() {
+    editedEmployee.value = JSON.parse(JSON.stringify(initialEmployee))
+  }
+
+  return { getEmployees, clearEditedEmployee, employees, editedEmployee }
 })
