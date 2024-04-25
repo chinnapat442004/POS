@@ -46,7 +46,8 @@ const rail = ref(true)
           class="list"
           prepend-icon="mdi-account-group"
           title="Employee"
-          value="Employee"
+          value="employee"
+          :to="{ name: 'employee' }"
         ></v-list-item>
       </v-list>
     </v-navigation-drawer>

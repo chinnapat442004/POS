@@ -18,6 +18,7 @@ async function deleteItemConfirm() {
 }
 </script>
 <template>
+ 
   <v-dialog v-model="dialog" max-width="500px">
     <v-card height="170px">
       <v-card-title
