@@ -1,17 +1,18 @@
 <script setup lang="ts">
+import { useEmployeeStore } from '@/stores/employee'
 import { inject, type Ref } from 'vue'
-
+const employeeStore = useEmployeeStore()
 const dialog = inject<Ref<boolean>>('deleteEmployeeDialog')
 
 function closeDelete() {
   if (dialog) dialog.value = false
 }
 
-// async function deleteItemConfirm() {
-//   await productStore.deleteProduct(productStore.editedProduct)
-//   await productStore.getProducts()
-//   if (dialog) dialog.value = false
-// }
+async function deleteItemConfirm() {
+  await employeeStore.deleteEmployee()
+  await employeeStore.getEmployees()
+  if (dialog) dialog.value = false
+}
 </script>
 <template>
   <v-dialog v-model="dialog" max-width="500px">
