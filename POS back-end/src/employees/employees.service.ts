@@ -33,8 +33,18 @@ export class EmployeesService {
     return this.employeeRepository.findOne({ where: { id } });
   }
 
-  update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
-    return `This action updates a #${id} employee`;
+  async update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
+    const employee = await this.employeeRepository.findOne({ where: { id } });
+
+    employee.email = updateEmployeeDto.email;
+    employee.password = updateEmployeeDto.password;
+    employee.role = updateEmployeeDto.role;
+    employee.name = updateEmployeeDto.name;
+
+    if (employee.image && employee.image != '') {
+      employee.image = updateEmployeeDto.image;
+    }
+    return this.employeeRepository.save(employee);
   }
 
   remove(id: number) {
