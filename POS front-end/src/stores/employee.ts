@@ -22,10 +22,12 @@ export const useEmployeeStore = defineStore('employee', () => {
     employees.value = res.data
   }
 
-  function addEmployee() {
+  async function addEmployee() {
     const employee = editedEmployee
     if (!employee.value.id) {
-      employeeService.addEmployee(employee.value)
+      await employeeService.addEmployee(employee.value)
+    } else {
+      await employeeService.updateEmploeyy(employee.value)
     }
   }
 
