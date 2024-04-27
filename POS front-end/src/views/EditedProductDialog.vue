@@ -28,6 +28,7 @@ const items = ref(['drink', 'food', 'dessert'])
 
 <template>
   <v-dialog
+    class="dialog"
     v-model="dialog"
     persistent
     max-width="600px"
@@ -41,7 +42,7 @@ const items = ref(['drink', 'food', 'dessert'])
   >
     <template v-slot:activator="{ props }">
       <v-btn
-        class="mb-2"
+        class="style"
         dark
         v-bind="props"
         @click="openDialog()"
@@ -53,7 +54,7 @@ const items = ref(['drink', 'food', 'dessert'])
     </template>
     <v-card>
       <v-card-title style="background-color: #415a77; color: white">
-        <span class="text-h5"> Product </span>
+        <span class="style"> Product </span>
       </v-card-title>
 
       <v-card-text>
@@ -65,10 +66,12 @@ const items = ref(['drink', 'food', 'dessert'])
                 v-model="productStore.editedProduct.name"
                 label="Name"
                 bg-color="blue-grey-lighten-5"
+                class="style"
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
+                class="style"
                 variant="outlined"
                 v-model="productStore.editedProduct.price"
                 label="Price"
@@ -79,6 +82,7 @@ const items = ref(['drink', 'food', 'dessert'])
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
+                class="style"
                 v-model="productStore.editedProduct.category"
                 variant="outlined"
                 :items="items"
@@ -112,10 +116,16 @@ const items = ref(['drink', 'food', 'dessert'])
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="red" variant="text" @click="close()"> Cancel </v-btn>
-        <v-btn color="blue-darken-1" variant="text" @click="save()"> Save </v-btn>
+        <v-btn color="red" class="style" variant="text" @click="close()"> Cancel </v-btn>
+        <v-btn color="blue-darken-1" class="style" variant="text" @click="save()"> Save </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
-<style scoped></style>
+<style scoped>
+.style {
+  font-family: 'Varela Round', sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+</style>

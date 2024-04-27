@@ -13,10 +13,10 @@ async function close() {
 
 async function save() {
   if (dialog) {
-    // await productStore.addProcduct()
     dialog.value = false
-    // await productStore.getProducts()
-    // await productStore.clear()
+    await employeeStore.addEmployee()
+    await employeeStore.getEmployees()
+    await employeeStore.clearEditedEmployee()
   }
 }
 
@@ -55,7 +55,7 @@ const items = ref(['owner', 'manager', 'staff'])
     </template>
     <v-card>
       <v-card-title style="background-color: #415a77; color: white">
-        <span class="text-h5"> Product </span>
+        <span class="style"> Employee </span>
       </v-card-title>
 
       <v-card-text>
@@ -63,6 +63,7 @@ const items = ref(['owner', 'manager', 'staff'])
           <v-row>
             <v-col cols="12" md="12" sm="12">
               <v-text-field
+                class="style"
                 variant="outlined"
                 v-model="employeeStore.editedEmployee.email"
                 label="Email"
@@ -71,6 +72,7 @@ const items = ref(['owner', 'manager', 'staff'])
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
+                class="style"
                 variant="outlined"
                 v-model="employeeStore.editedEmployee.name"
                 label="Name"
@@ -87,6 +89,7 @@ const items = ref(['owner', 'manager', 'staff'])
             </v-col> -->
             <v-col cols="12" md="6" sm="6">
               <v-select
+                class="style"
                 v-model="employeeStore.editedEmployee.role"
                 variant="outlined"
                 :items="items"
@@ -127,6 +130,7 @@ const items = ref(['owner', 'manager', 'staff'])
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-file-input
+                class="style"
                 v-model="employeeStore.editedEmployee.files"
                 style="margin-top: 50px"
                 variant="outlined"
@@ -145,4 +149,10 @@ const items = ref(['owner', 'manager', 'staff'])
     </v-card>
   </v-dialog>
 </template>
-<style scoped></style>
+<style scoped>
+.style {
+  font-family: 'Varela Round', sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+</style>
