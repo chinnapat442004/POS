@@ -22,9 +22,16 @@ export const useEmployeeStore = defineStore('employee', () => {
     employees.value = res.data
   }
 
+  function addEmployee() {
+    const employee = editedEmployee
+    if (!employee.value.id) {
+      employeeService.addEmployee(employee.value)
+    }
+  }
+
   function clearEditedEmployee() {
     editedEmployee.value = JSON.parse(JSON.stringify(initialEmployee))
   }
 
-  return { getEmployees, clearEditedEmployee, employees, editedEmployee }
+  return { getEmployees, clearEditedEmployee, addEmployee, employees, editedEmployee }
 })
