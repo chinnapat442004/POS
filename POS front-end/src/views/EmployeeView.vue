@@ -22,7 +22,8 @@ async function open(item: Employee & { files: File[] }) {
   employeeStore.editedEmployee = await Object.assign({}, item)
   dialog.value = true
 }
-function deleteItem() {
+async function deleteItem(item: Employee & { files: File[] }) {
+  employeeStore.editedEmployee = await Object.assign({}, item)
   deleteDialog.value = true
 }
 

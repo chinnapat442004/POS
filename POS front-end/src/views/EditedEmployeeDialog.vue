@@ -1,8 +1,7 @@
 <script setup lang="ts">
-// import { useProductStore } from '@/stores/product'
 import { useEmployeeStore } from '@/stores/employee'
 import { inject, ref, type Ref } from 'vue'
-// const productStore = useProductStore()
+
 const employeeStore = useEmployeeStore()
 const dialog = inject<Ref<boolean>>('editedEmployeeDialog')
 

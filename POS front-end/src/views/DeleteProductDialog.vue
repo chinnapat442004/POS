@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useProductStore } from '@/stores/product'
-import type { Product } from '@/types/Product'
+
 import { inject, type Ref } from 'vue'
 
 const productStore = useProductStore()
@@ -18,7 +18,6 @@ async function deleteItemConfirm() {
 }
 </script>
 <template>
- 
   <v-dialog v-model="dialog" max-width="500px">
     <v-card height="170px">
       <v-card-title
