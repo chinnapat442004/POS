@@ -54,11 +54,26 @@ export class EmployeesController {
     return this.employeesService.findAll();
   }
 
-  @Patch(':id')
+  @Post(':id')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './public/images/employees',
+        filename: (req, image, cd) => {
+          const name = uuidv4();
+          return cd(null, name + extname(image.originalname));
+        },
+      }),
+    }),
+  )
   update(
     @Param('id') id: string,
     @Body() updateEmployeeDto: UpdateEmployeeDto,
+    @UploadedFile() image: Express.Multer.File,
   ) {
+    if (image) {
+      updateEmployeeDto.image = image.filename;
+    }
     return this.employeesService.update(+id, updateEmployeeDto);
   }
 
