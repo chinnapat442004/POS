@@ -47,7 +47,8 @@ export class EmployeesService {
     return this.employeeRepository.save(employee);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} employee`;
+  async remove(id: number) {
+    const employee = await this.employeeRepository.findOne({ where: { id } });
+    return this.employeeRepository.remove(employee);
   }
 }
