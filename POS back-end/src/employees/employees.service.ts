@@ -51,4 +51,8 @@ export class EmployeesService {
     const employee = await this.employeeRepository.findOne({ where: { id } });
     return this.employeeRepository.remove(employee);
   }
+
+  async findEmail(email: string) {
+    return this.employeeRepository.findOne({ where: { email } });
+  }
 }

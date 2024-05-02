@@ -12,6 +12,7 @@ import { ReceiptsModule } from './receipts/receipts.module';
 import { Receipt } from './receipts/entities/receipt.entity';
 import { EmployeesModule } from './employees/employees.module';
 import { Employee } from './employees/entities/employee.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { Employee } from './employees/entities/employee.entity';
     ReceiptItemsModule,
     ReceiptsModule,
     EmployeesModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
