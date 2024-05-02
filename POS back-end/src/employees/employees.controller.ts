@@ -7,6 +7,7 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
@@ -16,6 +17,7 @@ import { diskStorage } from 'multer';
 
 import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('employees')
 export class EmployeesController {
@@ -48,6 +50,7 @@ export class EmployeesController {
     return this.employeesService.findOne(+id);
   }
 
+  @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.employeesService.findAll();
