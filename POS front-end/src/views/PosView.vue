@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth'
 import { useProductStore } from '@/stores/product'
 import { useReceiptStore } from '@/stores/receipt'
 import { useReceiptItemStore } from '@/stores/receiptItem'
@@ -8,6 +9,7 @@ import { onMounted, ref } from 'vue'
 const productStore = useProductStore()
 const receiptItemStore = useReceiptItemStore()
 const receiptStore = useReceiptStore()
+const authStore = useAuthStore()
 
 onMounted(async () => {
   await productStore.getProducts()

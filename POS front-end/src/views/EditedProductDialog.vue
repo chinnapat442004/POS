@@ -12,8 +12,8 @@ async function close() {
 async function save() {
   if (dialog) {
     await productStore.addProcduct()
-    dialog.value = false
     await productStore.getProducts()
+    dialog.value = false
     await productStore.clear()
   }
 }
