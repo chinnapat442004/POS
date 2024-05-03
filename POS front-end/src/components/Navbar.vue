@@ -1,8 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 
+import { ref, onMounted } from 'vue'
+const authStore = useAuthStore()
 const drawer = ref(true)
 const rail = ref(true)
+
+onMounted(async () => {
+  console.log(localStorage.getItem('employee'))
+  await authStore.getCurrentEmployee()
+  console.log(authStore.currentEmployee)
+})
 </script>
 
 <template>
@@ -15,10 +23,10 @@ const rail = ref(true)
   >
     <v-list-item
       style="background-color: #0d1b2a; color: white"
-      prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
-      title="John Leider"
+      :prepend-avatar="`http://localhost:3000/images/employees/${authStore.currentEmployee?.image}`"
       nav
     >
+      <h4 style="font-size: 20px; font-weight: bold">{{ authStore.currentEmployee?.name }}</h4>
       <template v-slot:append>
         <v-btn icon="mdi-chevron-left" variant="text" @click.stop="rail = !rail"></v-btn>
       </template>
@@ -51,6 +59,7 @@ const rail = ref(true)
     </v-list>
   </v-navigation-drawer>
 </template>
+
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Display:wght@500&family=Varela+Round&display=swap');
 .list {
