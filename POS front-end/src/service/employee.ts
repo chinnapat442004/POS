@@ -17,7 +17,7 @@ function addEmployee(employee: Employee & { files: File[] }) {
 
   return http.post('/employees', fromData, { headers: { 'Content-Type': 'multipart/form-data' } })
 }
-function updateEmploeyy(employee: Employee & { files: File[] }) {
+function updateEmployee(employee: Employee & { files: File[] }) {
   const fromData = new FormData()
   fromData.append('email', employee.email)
   fromData.append('password', employee.password)
@@ -31,4 +31,8 @@ function updateEmploeyy(employee: Employee & { files: File[] }) {
   })
 }
 
-export default { getEmployees, addEmployee, updateEmploeyy }
+function removeEmployee(employee: Employee) {
+  return http.delete(`/employees/${employee.id}`)
+}
+
+export default { getEmployees, addEmployee, updateEmployee, removeEmployee }

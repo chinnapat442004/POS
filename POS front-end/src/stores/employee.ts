@@ -27,13 +27,25 @@ export const useEmployeeStore = defineStore('employee', () => {
     if (!employee.value.id) {
       await employeeService.addEmployee(employee.value)
     } else {
-      await employeeService.updateEmploeyy(employee.value)
+      await employeeService.updateEmployee(employee.value)
     }
+  }
+
+  async function deleteEmployee() {
+    const employee = editedEmployee
+    await employeeService.removeEmployee(employee.value)
   }
 
   function clearEditedEmployee() {
     editedEmployee.value = JSON.parse(JSON.stringify(initialEmployee))
   }
 
-  return { getEmployees, clearEditedEmployee, addEmployee, employees, editedEmployee }
+  return {
+    getEmployees,
+    clearEditedEmployee,
+    addEmployee,
+    deleteEmployee,
+    employees,
+    editedEmployee
+  }
 })
