@@ -1,4 +1,4 @@
-import { ReceiptItem } from 'src/receipt-items/entities/receipt-item.entity';
+import { ReceiptItem } from 'src/receipts/entities/receipt-item.entity';
 import {
   Entity,
   Column,
