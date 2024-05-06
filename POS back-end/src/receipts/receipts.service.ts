@@ -4,11 +4,15 @@ import { UpdateReceiptDto } from './dto/update-receipt.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Receipt } from './entities/receipt.entity';
 import { Repository } from 'typeorm';
+import { ReceiptItem } from './entities/receipt-item.entity';
 
 @Injectable()
 export class ReceiptsService {
   constructor(
-    @InjectRepository(Receipt) private receiptsRepository: Repository<Receipt>,
+    @InjectRepository(Receipt)
+    private receiptsRepository: Repository<Receipt>,
+    @InjectRepository(ReceiptItem)
+    private receiptItemsRepository: Repository<Receipt>,
   ) {}
   create(createReceiptDto: CreateReceiptDto) {
     return this.receiptsRepository.save(createReceiptDto);
