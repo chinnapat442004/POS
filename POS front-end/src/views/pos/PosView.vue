@@ -52,6 +52,8 @@ function plus(item: ReceiptItme) {
 function clearDialog() {
   dialog.value = true
 }
+
+function onClick() {}
 </script>
 <template>
   <v-container>
@@ -205,7 +207,25 @@ function clearDialog() {
           </v-table></v-card
         >
         <div style="height: 24px"></div>
-        <v-card height="125" elevation="5"> </v-card>
+
+        <v-card height="125" elevation="5">
+          <v-container>
+            <v-row no-gutters>
+              <v-col md="6">
+                <v-text-field
+                  label="Search Member"
+                  variant="solo"
+                  append-inner-icon="mdi-magnify"
+                  @click:append-inner="onClick"
+                  hide-details
+                  single-line
+                ></v-text-field>
+              </v-col>
+
+              <v-col md="6"> </v-col>
+            </v-row>
+          </v-container>
+        </v-card>
         <div style="height: 24px"></div>
         <v-card height="125" elevation="5">
           <div>Total {{ receiptStore.receipt.total }} Baht</div>
