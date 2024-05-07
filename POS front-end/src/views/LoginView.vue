@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { VForm } from 'vuetify/components'
 const router = useRouter()
@@ -10,14 +10,30 @@ const form = ref<VForm | null>(null)
 function onSubmit() {}
 const authStore = useAuthStore()
 
-const emailPattern = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/
+// const emailPattern = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/
 
 async function login() {
   const { valid } = await form.value!.validate()
-  authStore.login()
+  await authStore.login()
+
   if (!valid) return
-  router.replace({ name: 'pos' })
 }
+
+const loginRules = (v: string) => {
+  if (!v) {
+    return 'false'
+  } else if (authStore.getCurrentEmployee() === null) {
+    console.log('dfdfs')
+    return 'notpass'
+  }
+
+  return true
+}
+onMounted(async () => {
+  localStorage.setItem('employee', '')
+  localStorage.setItem('access_token', '')
+})
+
 // const pass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/
 </script>
 <template>
@@ -39,18 +55,21 @@ async function login() {
         <v-text-field
           class="style"
           :readonly="loading"
+          v-model="authStore.email"
           density="compact"
           placeholder="Email address"
           prepend-inner-icon="mdi-email-outline"
           bg-color="blue-grey-lighten-5"
           variant="outlined"
-          :rules="[(email) => !!email.match(emailPattern) || 'Invalid email address']"
+          :rules="[(email) => !!email.match(emailPattern) || 'Invalid email address'] || loginRules"
         ></v-text-field>
         <div style="font-size: 17px; color: white" class="align-center justify-space-between">
           Password
         </div>
         <v-text-field
           class="style"
+          :rules="[loginRules]"
+          v-model="authStore.password"
           :readonly="loading"
           :append-inner-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
           :type="show ? 'text' : 'password'"

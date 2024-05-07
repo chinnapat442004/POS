@@ -1,3 +1,4 @@
+import { TurnLeft } from '@mui/icons-material'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -23,7 +24,7 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       components: {
-        default: () => import('../views/PosView.vue'),
+        default: () => import('../views/pos/PosView.vue'),
         menu: () => import('../components/Navbar.vue')
       },
 
@@ -38,7 +39,7 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       components: {
-        default: () => import('../views/ProductView.vue'),
+        default: () => import('../views/product/ProductView.vue'),
         menu: () => import('../components/Navbar.vue')
       },
       meta: {
@@ -52,7 +53,7 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       components: {
-        default: () => import('../views/EmployeeView.vue'),
+        default: () => import('../views/employee/EmployeeView.vue'),
         menu: () => import('../components/Navbar.vue')
       },
       meta: {
@@ -73,6 +74,18 @@ const router = createRouter({
     //   }
     // }
   ]
+})
+
+function isAuthenticated() {
+  const employee = localStorage.getItem('employee')
+  if (employee) return true
+  return false
+}
+
+router.beforeEach(async (to, form) => {
+  if (!isAuthenticated() && to.name !== 'login') {
+    return { name: 'login' }
+  }
 })
 
 export default router
