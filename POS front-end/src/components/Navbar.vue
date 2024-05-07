@@ -2,15 +2,23 @@
 import { useAuthStore } from '@/stores/auth'
 
 import { ref, onMounted } from 'vue'
+import { provide } from 'vue'
 const authStore = useAuthStore()
 const drawer = ref(true)
 const rail = ref(true)
+const dialog = ref(false)
+import conformLogoutDialog from '@/views/ConfirmLogoutDialog.vue'
+
+provide('logoutDialog', dialog)
 
 onMounted(async () => {
   console.log(localStorage.getItem('employee'))
   await authStore.getCurrentEmployee()
-  console.log(authStore.currentEmployee)
 })
+
+function confirmLogout() {
+  dialog.value = true
+}
 </script>
 
 <template>
@@ -49,6 +57,7 @@ onMounted(async () => {
         value="product"
         :to="{ name: 'product' }"
       ></v-list-item>
+
       <v-list-item
         class="list"
         prepend-icon="mdi-account-group"
@@ -56,8 +65,17 @@ onMounted(async () => {
         value="employee"
         :to="{ name: 'employee' }"
       ></v-list-item>
+      <div style="height: 425px"></div>
+      <v-list-item
+        class="list"
+        prepend-icon="mdi-logout"
+        title="Logout"
+        value="employee"
+        @click="confirmLogout"
+      ></v-list-item>
     </v-list>
   </v-navigation-drawer>
+  <conformLogoutDialog></conformLogoutDialog>
 </template>
 
 <style scoped>
