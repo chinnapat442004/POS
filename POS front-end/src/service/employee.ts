@@ -5,6 +5,10 @@ function getEmployees() {
   return http.get('/employees')
 }
 
+function getEmployee(employee: Employee) {
+  return http.get(`/employees/${employee.id}`)
+}
+
 function addEmployee(employee: Employee & { files: File[] }) {
   const fromData = new FormData()
   fromData.append('email', employee.email)
@@ -35,4 +39,4 @@ function removeEmployee(employee: Employee) {
   return http.delete(`/employees/${employee.id}`)
 }
 
-export default { getEmployees, addEmployee, updateEmployee, removeEmployee }
+export default { getEmployees, getEmployee, addEmployee, updateEmployee, removeEmployee }
