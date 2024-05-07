@@ -17,15 +17,16 @@ onMounted(async () => {
   await productStore.getProducts()
 })
 
-function open(item: Product & { files: File[] }) {
+function open(item: Product) {
   productStore.getProduct(item)
 
   // productStore.editedProduct = Object.assign({}, item)
   dialog.value = true
 }
 
-function deleteItem(item: Product & { files: File[] }) {
-  productStore.editedProduct = Object.assign({}, item)
+function deleteItem(item: Product) {
+  productStore.getProduct(item)
+  // productStore.editedProduct = Object.assign({}, item)
   productStore.getProduct(item)
   deleteDialog.value = true
 }
@@ -73,7 +74,7 @@ const headers = [
             ></v-toolbar-title>
           </v-toolbar>
         </template>
-        <template v-slot:item.image="{ item }">
+        <template v-slot:[`item.image`]="{ item }">
           <v-img
             :src="`http://localhost:3000/images/products/${item.image}`"
             width="150"
@@ -83,7 +84,7 @@ const headers = [
           >
           </v-img>
         </template>
-        <template v-slot:item.actions="{ item }">
+        <template v-slot:[`item.actions`]="{ item }">
           <v-icon class="me-2" size="small" @click="open(item)"> mdi-pencil </v-icon>
           <v-icon size="small" @click="deleteItem(item)"> mdi-delete </v-icon>
         </template>

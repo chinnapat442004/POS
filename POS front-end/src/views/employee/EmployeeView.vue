@@ -1,32 +1,31 @@
 <script setup lang="ts">
-import { useProductStore } from '@/stores/product'
 import { onMounted, ref, provide } from 'vue'
-import EditedProductDialog from './EditedProductDialog.vue'
-import type { Product } from '@/types/Product'
-import DeleteProductDialog from './DeleteProductDialog.vue'
+import EditedEmployeeDialog from './EditedEmployeeDialog.vue'
+import DeleteEmployeeDialog from './DeleteEmployeeDialog.vue'
+import { useEmployeeStore } from '@/stores/employee'
+import type { Employee } from '@/types/Employee'
 
-const productStore = useProductStore()
+const employeeStore = useEmployeeStore()
 const search = ref('')
 const deleteDialog = ref(false)
-provide('deleteDialog', deleteDialog)
+provide('deleteEmployeeDialog', deleteDialog)
 
 const dialog = ref(false)
-provide('editedProcuctDialog', dialog)
+provide('editedEmployeeDialog', dialog)
 
 onMounted(async () => {
-  await productStore.getProducts()
+  await employeeStore.getEmployees()
 })
 
-function open(item: Product & { files: File[] }) {
-  productStore.getProduct(item)
-
-  // productStore.editedProduct = Object.assign({}, item)
+async function open(item: Employee) {
+  await employeeStore.clearEditedEmployee()
+  // employeeStore.editedEmployee = await Object.assign({}, item)
+  employeeStore.getEmployee(item)
   dialog.value = true
 }
-
-function deleteItem(item: Product & { files: File[] }) {
-  productStore.editedProduct = Object.assign({}, item)
-  productStore.getProduct(item)
+async function deleteItem(item: Employee) {
+  // employeeStore.editedEmployee = await Object.assign({}, item)
+  employeeStore.getEmployee(item)
   deleteDialog.value = true
 }
 
@@ -34,7 +33,8 @@ const headers = [
   { title: 'Id', value: 'id', key: 'id' },
   { title: 'Image', value: 'image', key: 'image' },
   { title: 'Name', value: 'name', key: 'name' },
-  { title: 'Price', value: 'price', key: 'price' },
+  { title: 'Email', value: 'email', key: 'email' },
+  { title: 'Role', value: 'role', key: 'role' },
   { title: 'Actions', key: 'actions', sortable: false }
 ]
 </script>
@@ -44,7 +44,7 @@ const headers = [
       <v-data-table
         height="530"
         :headers="headers"
-        :items="productStore.products"
+        :items="employeeStore.employees"
         :search="search"
         :header-props="{ style: 'background-color: #e1e5f2;  font-weight: 800; ' }"
       >
@@ -53,7 +53,7 @@ const headers = [
             <v-toolbar-title style="background-color: #0d1b2a; color: white">
               <v-row
                 ><v-col md="6">
-                  <div style="margin: 10px 0px 0px 10px; font-size: 25px">Product</div>
+                  <div style="margin: 10px 0px 0px 10px; font-size: 25px">Employee</div>
                 </v-col>
                 <v-col md="4">
                   <v-text-field
@@ -69,21 +69,23 @@ const headers = [
                 ></v-col>
                 <v-col md="2">
                   <div style="margin: 10px 10px 0px 0px">
-                    <edited-product-dialog></edited-product-dialog></div></v-col></v-row
+                    <edited-employee-dialog></edited-employee-dialog>
+                  </div> </v-col></v-row
             ></v-toolbar-title>
           </v-toolbar>
         </template>
-        <template v-slot:item.image="{ item }">
+        <template v-slot:[`item.image`]="{ item }">
           <v-img
-            :src="`http://localhost:3000/images/products/${item.image}`"
+            :src="`http://localhost:3000/images/employees/${item.image}`"
             width="150"
-            height="130"
+            height="150"
             cover
             style="border-radius: 15px; margin-top: 10px; margin-bottom: 10px; pointer-events: none"
           >
           </v-img>
         </template>
-        <template v-slot:item.actions="{ item }">
+
+        <template v-slot:[`item.actions`]="{ item }">
           <v-icon class="me-2" size="small" @click="open(item)"> mdi-pencil </v-icon>
           <v-icon size="small" @click="deleteItem(item)"> mdi-delete </v-icon>
         </template>
@@ -91,5 +93,5 @@ const headers = [
     </v-row>
   </v-card>
 
-  <DeleteProductDialog></DeleteProductDialog>
+  <delete-employee-dialog></delete-employee-dialog>
 </template>
