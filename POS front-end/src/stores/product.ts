@@ -21,14 +21,13 @@ export const useProductStore = defineStore('product', () => {
     products.value = res.data
   }
 
-  async function getProduct(product: Product & { files: File[] }) {
+  async function getProduct(product: Product) {
     const res = await productService.getProduct(product)
     editedProduct.value = res.data
   }
 
   async function addProcduct() {
     const product = editedProduct.value
-    console.log(product.id)
 
     if (!product.id) {
       await productService.addProcduct(product)
