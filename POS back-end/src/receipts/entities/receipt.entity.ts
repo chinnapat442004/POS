@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { ReceiptItem } from './receipt-item.entity';
 import { Employee } from 'src/employees/entities/employee.entity';
+import { Member } from 'src/members/entities/member.entity';
 
 @Entity()
 export class Receipt {
@@ -29,4 +30,7 @@ export class Receipt {
 
   @ManyToOne(() => Employee, (employee) => employee.receipts)
   employee: Employee;
+
+  @ManyToOne(() => Member, (member) => member.receipts)
+  member: Member;
 }
