@@ -86,8 +86,10 @@ const headers = [
         </template>
 
         <template v-slot:[`item.actions`]="{ item }">
-          <v-icon class="me-2" size="small" @click="open(item)"> mdi-pencil </v-icon>
-          <v-icon size="small" @click="deleteItem(item)"> mdi-delete </v-icon>
+          <v-icon class="me-2" size="small" @click="open(item)" color="#263238">
+            mdi-pencil
+          </v-icon>
+          <v-icon size="small" @click="deleteItem(item)" color="#E57373"> mdi-delete </v-icon>
         </template>
       </v-data-table>
     </v-row>
