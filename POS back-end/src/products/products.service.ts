@@ -53,4 +53,14 @@ export class ProductsService {
 
     return this.productsRepository.remove(product);
   }
+
+  async getTopProduct() {
+    return await this.productsRepository.query(`
+    SELECT productId, name,SUM(receipt_item.quantity)AS qty
+    FROM  receipt_item 
+    INNER JOIN product ON receipt_item.productId = product.id
+   GROUP BY productId
+    ORDER BY qty DESC
+    LIMIT 5;`);
+  }
 }

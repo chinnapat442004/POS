@@ -6,6 +6,9 @@ import { ref } from 'vue'
 export const useProductStore = defineStore('product', () => {
   const products = ref<Product[]>([])
 
+  const labels = ref()
+  const data = ref()
+
   const initialProduct: Product & { files: File[] } = {
     name: '',
     price: 0,
@@ -43,13 +46,28 @@ export const useProductStore = defineStore('product', () => {
   function clear() {
     editedProduct.value = JSON.parse(JSON.stringify(initialProduct))
   }
+
+  async function getTopProduct() {
+    const res = await productService.getTopProduct()
+
+    labels.value = res.data.map((item: any) => {
+      return item.name
+    })
+
+    data.value = res.data.map((item: any) => {
+      return item.qty
+    })
+  }
   return {
     getProducts,
     getProduct,
     clear,
     addProcduct,
     deleteProduct,
+    getTopProduct,
     products,
-    editedProduct
+    editedProduct,
+    labels,
+    data
   }
 })

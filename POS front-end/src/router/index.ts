@@ -59,6 +59,62 @@ const router = createRouter({
       meta: {
         layout: 'mainLaout'
       }
+    },
+    {
+      path: '/history',
+      name: 'history',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      components: {
+        default: () => import('../views/HistoryView.vue'),
+        menu: () => import('../components/Navbar.vue')
+      },
+      meta: {
+        layout: 'mainLaout'
+      }
+    },
+    {
+      path: '/chart',
+      name: 'chart',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      components: {
+        default: () => import('../views/ChartView.vue'),
+        menu: () => import('../components/Navbar.vue')
+      },
+      meta: {
+        layout: 'mainLaout'
+      }
+    },
+    {
+      path: '/check-in',
+      name: 'check-in',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      components: {
+        default: () => import('../views/CheckInCheckOutView.vue'),
+        menu: () => import('../components/Navbar.vue')
+      },
+      meta: {
+        layout: 'mainLaout'
+      }
+    },
+    {
+      path: '/member',
+      name: 'member',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      components: {
+        default: () => import('../views/MemberView.vue'),
+        menu: () => import('../components/Navbar.vue')
+      },
+      meta: {
+        layout: 'mainLaout'
+      }
     }
     // {
     //   path: '/login',
