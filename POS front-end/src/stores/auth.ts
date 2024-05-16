@@ -7,7 +7,7 @@ import router from '@/router'
 export const useAuthStore = defineStore('auth', () => {
   const email = ref('')
   const password = ref('')
-  const currentEmployee = ref<Employee | null>()
+  const currentEmployee = ref<Employee>()
 
   async function login() {
     const res = await authService.auth(email.value, password.value)
