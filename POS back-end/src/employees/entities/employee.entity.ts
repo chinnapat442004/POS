@@ -1,7 +1,9 @@
+import { Receipt } from 'src/receipts/entities/receipt.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -31,4 +33,7 @@ export class Employee {
 
   @UpdateDateColumn()
   updated: Date;
+
+  @OneToMany(() => Receipt, (receipt) => receipt.employee)
+  receipts: Receipt[];
 }
