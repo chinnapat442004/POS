@@ -8,9 +8,11 @@ import { provide } from 'vue'
 import ConfirmCleardialog from './ConfirmCleardialog.vue'
 import ReceiptDialog from './ReceiptDialog.vue'
 import { onMounted, ref } from 'vue'
+
 const productStore = useProductStore()
 const receiptItemStore = useReceiptItemStore()
 const receiptStore = useReceiptStore()
+
 const dialog = ref(false)
 const receiptDialog = ref(false)
 provide('clearDialog', dialog)
@@ -21,6 +23,8 @@ onMounted(async () => {
 })
 
 function openReceipt() {
+  receiptStore.createReceipt()
+
   receiptDialog.value = true
 }
 
