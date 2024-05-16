@@ -25,6 +25,11 @@ export class MembersController {
     return this.membersService.findAll();
   }
 
+  @Get('/phone/:phone')
+  findOneByPhone(@Param('phone') phone: string) {
+    return this.membersService.findOneByPhone(phone);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.membersService.findOne(+id);
