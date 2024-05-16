@@ -18,7 +18,11 @@ export class MembersService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} member`;
+    return this.membersRepository.findOneOrFail({ where: { id } });
+  }
+
+  findOneByPhone(phone: string) {
+    return this.membersRepository.findOneOrFail({ where: { phone } });
   }
 
   update(id: number, updateMemberDto: UpdateMemberDto) {

@@ -1,4 +1,3 @@
-import { Member } from 'src/members/entities/member.entity';
 import { Product } from 'src/products/entities/product.entity';
 import { Receipt } from 'src/receipts/entities/receipt.entity';
 import {
