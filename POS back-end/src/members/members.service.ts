@@ -22,14 +22,17 @@ export class MembersService {
   }
 
   findOneByPhone(phone: string) {
-    return this.membersRepository.findOneOrFail({ where: { phone } });
+    return this.membersRepository.findOne({ where: { phone } });
   }
 
-  update(id: number, updateMemberDto: UpdateMemberDto) {
-    return `This action updates a #${id} member`;
+  async update(id: number, updateMemberDto: UpdateMemberDto) {
+    const memberId = await this.membersRepository.findOne({ where: { id } });
+    const update = { ...memberId, ...updateMemberDto };
+    return this.membersRepository.save(update);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} member`;
+  async remove(id: number) {
+    const memberId = await this.membersRepository.findOne({ where: { id } });
+    return this.membersRepository.remove(memberId);
   }
 }
