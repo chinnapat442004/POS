@@ -1,5 +1,5 @@
 type Member = {
-  id: number
+  id?: number
   name: string
   phone: string
   point: number
