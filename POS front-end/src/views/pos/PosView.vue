@@ -3,18 +3,21 @@ import { useProductStore } from '@/stores/product'
 import { useReceiptStore } from '@/stores/receipt'
 import { useReceiptItemStore } from '@/stores/receiptItem'
 import type { Product } from '@/types/Product'
-import type { ReceiptItme } from '@/types/ReceiptItem'
+import type { ReceiptItem } from '@/types/ReceiptItem'
 import { provide } from 'vue'
 import ConfirmCleardialog from './ConfirmCleardialog.vue'
 import ReceiptDialog from './ReceiptDialog.vue'
 import { onMounted, ref } from 'vue'
+import { useMemberStore } from '@/stores/member'
 
 const productStore = useProductStore()
 const receiptItemStore = useReceiptItemStore()
 const receiptStore = useReceiptStore()
+const memberStore = useMemberStore()
 
 const dialog = ref(false)
 const receiptDialog = ref(false)
+const phone = ref()
 provide('clearDialog', dialog)
 provide('receiptDialog', receiptDialog)
 
@@ -28,6 +31,10 @@ function openReceipt() {
   receiptDialog.value = true
 }
 
+async function findMember(item: string) {
+  memberStore.getMemberByPhone(item)
+}
+
 function selectReceiptItem(p: Product) {
   productStore.editedProduct = JSON.parse(JSON.stringify(p))
   receiptItemStore.addProduct(p)
@@ -37,7 +44,7 @@ function selectReceiptItem(p: Product) {
 
 const tab = ref(null)
 
-function minus(item: ReceiptItme) {
+function minus(item: ReceiptItem) {
   item.quantity -= 1
   const index = receiptItemStore.receiptItems.indexOf(item)
   item.total -= item.product.price
@@ -47,17 +54,21 @@ function minus(item: ReceiptItme) {
   receiptStore.calTotal()
 }
 
-function plus(item: ReceiptItme) {
+function plus(item: ReceiptItem) {
   item.quantity += 1
   item.total += item.product.price
+  receiptStore.calTotal()
+}
+
+function remove(item: ReceiptItem) {
+  const index = receiptItemStore.receiptItems.indexOf(item)
+  receiptItemStore.receiptItems.splice(index, 1)
   receiptStore.calTotal()
 }
 
 function clearDialog() {
   dialog.value = true
 }
-
-function onClick() {}
 </script>
 <template>
   <v-container>
@@ -179,8 +190,10 @@ function onClick() {}
               <tr>
                 <th>Name</th>
                 <th>Unit Price</th>
+
                 <th>Quantity</th>
                 <th>Total</th>
+                <th></th>
               </tr>
             </thead>
 
@@ -188,16 +201,21 @@ function onClick() {}
               <tr v-for="item in receiptItemStore.receiptItems" :key="item.id">
                 <td>{{ item.product?.name }}</td>
                 <td>{{ item.product?.price }}</td>
-                <td>
+                <td style="width: 120px">
                   <v-row>
                     <v-btn
+                      color="blue-grey-lighten-4
+"
                       style="margin-right: 7px"
                       density="compact"
                       icon="mdi-minus"
                       @click="minus(item)"
-                    ></v-btn
-                    >{{ item.quantity
+                    ></v-btn>
+
+                    {{ item.quantity
                     }}<v-btn
+                      color="blue-grey-lighten-4
+"
                       style="margin-left: 7px"
                       density="compact"
                       icon="mdi-plus"
@@ -205,7 +223,11 @@ function onClick() {}
                     ></v-btn>
                   </v-row>
                 </td>
+
                 <td>{{ item.total }}</td>
+                <th>
+                  <v-icon size="small" @click="remove(item)" color="#E57373"> mdi-delete </v-icon>
+                </th>
               </tr>
             </tbody>
           </v-table></v-card
@@ -219,14 +241,24 @@ function onClick() {}
                 <v-text-field
                   label="Search Member"
                   variant="solo"
+                  v-model="phone"
                   append-inner-icon="mdi-magnify"
-                  @click:append-inner="onClick"
+                  @click:append-inner="findMember(phone)"
+                  @keyup.enter="findMember(phone)"
                   hide-details
                   single-line
                 ></v-text-field>
               </v-col>
 
-              <v-col md="6"> </v-col>
+              <v-col md="6">
+                <div style="height: 100%; text-align: center">
+                  Name :
+                  {{ memberStore.memberPhone.name }}
+                  <div></div>
+                  Point :
+                  {{ memberStore.memberPhone.point }}
+                </div>
+              </v-col>
             </v-row>
           </v-container>
         </v-card>
