@@ -17,4 +17,19 @@ instance.interceptors.request.use(
   }
 )
 
+function delay(sec: number) {
+  return new Promise((resolve) => setTimeout(() => resolve(sec), sec * 300))
+}
+
+instance.interceptors.request.use(
+  async function (sec) {
+    await delay(1)
+
+    return sec
+  },
+  function (error) {
+    return Promise.reject(error)
+  }
+)
+
 export default instance
