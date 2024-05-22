@@ -5,12 +5,12 @@ import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: EmployeesService,
+    private employeesService: EmployeesService,
     private jwtService: JwtService,
   ) {}
 
   async signIn(email: string, pass: string): Promise<any> {
-    const employee = await this.usersService.findEmail(email);
+    const employee = await this.employeesService.findEmail(email);
     if (employee?.password !== pass) {
       throw new UnauthorizedException();
     }
