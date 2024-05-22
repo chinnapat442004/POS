@@ -14,8 +14,8 @@ async function save() {
   if (dialog) {
     await employeeStore.addEmployee()
     await employeeStore.getEmployees()
-    dialog.value = false
     await employeeStore.clearEditedEmployee()
+    dialog.value = false
   }
 }
 
