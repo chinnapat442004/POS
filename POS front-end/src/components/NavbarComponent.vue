@@ -28,7 +28,7 @@ function confirmLogout() {
     @click="rail = false"
     style="background-color: #4f5d75"
   >
-    <v-list-item style="background-color: #0d1b2a; height: 80px; color: white" nav>
+    <v-list-item style="background-color: #0d1b2a; height: 55px; color: white" nav>
       <v-menu min-width="200px" rounded>
         <template v-slot:activator="{ props }">
           <div>
@@ -113,7 +113,7 @@ function confirmLogout() {
         <v-list-item
           class="list"
           prepend-icon="mdi-food"
-          title="Procudt"
+          title="Product"
           value="product"
           :to="{ name: 'product' }"
         ></v-list-item>
