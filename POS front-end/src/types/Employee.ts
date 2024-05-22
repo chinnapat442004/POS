@@ -1,3 +1,5 @@
+import type { Branch } from './Breach'
+
 type Employee = {
   id?: number
   email: string
@@ -5,5 +7,6 @@ type Employee = {
   name: string
   role: string
   image: string
+  branch?: Branch
 }
 export { type Employee }

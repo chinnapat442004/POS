@@ -39,4 +39,15 @@ function removeEmployee(employee: Employee) {
   return http.delete(`/employees/${employee.id}`)
 }
 
-export default { getEmployees, getEmployee, addEmployee, updateEmployee, removeEmployee }
+function getEmployeeByBranch(employee: Employee) {
+  return http.get(`/employees/branch/${employee.branch?.id}`)
+}
+
+export default {
+  getEmployees,
+  getEmployee,
+  addEmployee,
+  updateEmployee,
+  removeEmployee,
+  getEmployeeByBranch
+}

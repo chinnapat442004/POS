@@ -4,17 +4,22 @@ import EditedEmployeeDialog from './EditedEmployeeDialog.vue'
 import DeleteEmployeeDialog from './DeleteEmployeeDialog.vue'
 import { useEmployeeStore } from '@/stores/employee'
 import type { Employee } from '@/types/Employee'
+import { useAuthStore } from '@/stores/auth'
 
 const employeeStore = useEmployeeStore()
 const search = ref('')
 const deleteDialog = ref(false)
+const authStore = useAuthStore()
 provide('deleteEmployeeDialog', deleteDialog)
 
 const dialog = ref(false)
 provide('editedEmployeeDialog', dialog)
 
 onMounted(async () => {
-  await employeeStore.getEmployees()
+  await authStore.getCurrentEmployee()
+  if (authStore.currentEmployee) {
+    await employeeStore.getEmployeesByBranch(authStore.currentEmployee)
+  }
 })
 
 async function open(item: Employee) {
