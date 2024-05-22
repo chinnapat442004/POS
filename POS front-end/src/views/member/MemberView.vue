@@ -5,16 +5,24 @@ import { useMemberStore } from '@/stores/member'
 import type { Member } from '@/types/Member'
 import { provide } from 'vue'
 import DeleteMemberDialog from './DeleteMemberDialog.vue'
+import EditedMemberDialog from './EditedMemberDialog.vue'
 
 const memberStore = useMemberStore()
 const search = ref('')
 
 const deleteDialog = ref(false)
 provide('deleteMemberDialog', deleteDialog)
+const editedDialog = ref(false)
+provide('editedMemberDialog', editedDialog)
 
 function deleteItem(item: Member) {
   memberStore.getMember(item)
   deleteDialog.value = true
+}
+
+function open(item: Member) {
+  memberStore.getMember(item)
+  editedDialog.value = true
 }
 
 onMounted(async () => {
@@ -60,7 +68,7 @@ const headers = [
                 ></v-col>
                 <v-col md="2">
                   <div style="margin: 10px 10px 0px 0px">
-                    <edited-employee-dialog></edited-employee-dialog>
+                    <EditedMemberDialog></EditedMemberDialog>
                   </div> </v-col></v-row
             ></v-toolbar-title>
           </v-toolbar>
