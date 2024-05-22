@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useLonderStore } from '@/stores/loader'
+import { useLoaderStore } from '@/stores/loader'
 
-const loaderStore = useLonderStore()
+const loaderStore = useLoaderStore()
 </script>
 <template>
   <v-dialog v-model="loaderStore.loading">
