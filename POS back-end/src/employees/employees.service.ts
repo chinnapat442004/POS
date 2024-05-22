@@ -26,11 +26,17 @@ export class EmployeesService {
   }
 
   findAll() {
-    return this.employeeRepository.find();
+    return this.employeeRepository.find({ relations: { branch: true } });
   }
 
   findOne(id: number) {
     return this.employeeRepository.findOne({ where: { id } });
+  }
+
+  findEmployeeByBranch(branchId: number) {
+    return this.employeeRepository.find({
+      where: { branch: { id: branchId } },
+    });
   }
 
   async update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
@@ -53,6 +59,9 @@ export class EmployeesService {
   }
 
   async findEmail(email: string) {
-    return this.employeeRepository.findOne({ where: { email } });
+    return this.employeeRepository.findOne({
+      where: { email },
+      relations: { branch: true },
+    });
   }
 }

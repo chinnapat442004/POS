@@ -22,7 +22,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
-
+  @UseGuards(AuthGuard)
   @Post()
   @UseInterceptors(
     FileInterceptor('file', {
@@ -50,7 +50,11 @@ export class EmployeesController {
     return this.employeesService.findOne(+id);
   }
 
-  @UseGuards(AuthGuard)
+  @Get('/branch/:id')
+  findEmployeeByBranch(@Param('id') branchId: number) {
+    return this.employeesService.findEmployeeByBranch(branchId);
+  }
+
   @Get()
   findAll() {
     return this.employeesService.findAll();
