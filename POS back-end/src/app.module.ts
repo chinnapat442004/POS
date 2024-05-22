@@ -6,7 +6,6 @@ import { ProductsModule } from './products/products.module';
 import { Product } from './products/entities/product.entity';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-
 import { ReceiptsModule } from './receipts/receipts.module';
 import { Receipt } from './receipts/entities/receipt.entity';
 import { EmployeesModule } from './employees/employees.module';
@@ -16,12 +15,15 @@ import { ReceiptItem } from './receipts/entities/receipt-item.entity';
 import { MembersModule } from './members/members.module';
 import { Member } from './members/entities/member.entity';
 
+import { BranchesModule } from './branches/branches.module';
+import { Branch } from './branches/entities/branch.entity';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database.sqlite',
-      entities: [Product, Receipt, Employee, ReceiptItem, Member],
+      entities: [Product, Receipt, Employee, ReceiptItem, Member, Branch],
       synchronize: true,
     }),
     ServeStaticModule.forRoot({
@@ -33,6 +35,7 @@ import { Member } from './members/entities/member.entity';
     AuthModule,
     MembersModule,
     MembersModule,
+    BranchesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
