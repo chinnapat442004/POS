@@ -17,4 +17,12 @@ function getMember(member: Member) {
   return http.get(`members/${member.id}`)
 }
 
-export default { getMembers, getMemberByPhone, deleteMember, getMember }
+function addMember(member: Member) {
+  return http.post('members', member)
+}
+
+function updateMember(member: Member) {
+  return http.patch(`members/${member.id}`, member)
+}
+
+export default { getMembers, getMemberByPhone, deleteMember, getMember, addMember, updateMember }

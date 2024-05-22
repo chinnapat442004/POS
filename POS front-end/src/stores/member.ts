@@ -43,12 +43,24 @@ export const useMemberStore = defineStore('member', () => {
     editedMember.value = JSON.parse(JSON.stringify(initialMember))
   }
 
+  async function addMember() {
+    console.log(editedMember.value.id)
+    if (!editedMember.value.id) {
+      await memberService.addMember(editedMember.value)
+    } else {
+      await memberService.updateMember(editedMember.value)
+    }
+  }
+
   return {
     getMembers,
     getMemberByPhone,
     deleteMember,
     getMember,
+    clearEditedMember,
+    addMember,
     memberPhone,
-    members
+    members,
+    editedMember
   }
 })
