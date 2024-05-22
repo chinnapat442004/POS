@@ -1,8 +1,10 @@
+import { Branch } from 'src/branches/entities/branch.entity';
 import { Receipt } from 'src/receipts/entities/receipt.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -36,4 +38,7 @@ export class Employee {
 
   @OneToMany(() => Receipt, (receipt) => receipt.employee)
   receipts: Receipt[];
+
+  @ManyToOne(() => Branch, (branch) => branch.employees)
+  branch: Branch;
 }
