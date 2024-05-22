@@ -25,7 +25,7 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       components: {
         default: () => import('../views/pos/PosView.vue'),
-        menu: () => import('../components/Navbar.vue')
+        menu: () => import('../components/NavbarComponent.vue')
       },
 
       meta: {
@@ -40,7 +40,7 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       components: {
         default: () => import('../views/product/ProductView.vue'),
-        menu: () => import('../components/Navbar.vue')
+        menu: () => import('../components/NavbarComponent.vue')
       },
       meta: {
         layout: 'mainLaout'
@@ -54,7 +54,7 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       components: {
         default: () => import('../views/employee/EmployeeView.vue'),
-        menu: () => import('../components/Navbar.vue')
+        menu: () => import('../components/NavbarComponent.vue')
       },
       meta: {
         layout: 'mainLaout'
@@ -68,7 +68,7 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       components: {
         default: () => import('../views/HistoryView.vue'),
-        menu: () => import('../components/Navbar.vue')
+        menu: () => import('../components/NavbarComponent.vue')
       },
       meta: {
         layout: 'mainLaout'
@@ -82,7 +82,7 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       components: {
         default: () => import('../views/ChartView.vue'),
-        menu: () => import('../components/Navbar.vue')
+        menu: () => import('../components/NavbarComponent.vue')
       },
       meta: {
         layout: 'mainLaout'
@@ -96,7 +96,7 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       components: {
         default: () => import('../views/CheckInCheckOutView.vue'),
-        menu: () => import('../components/Navbar.vue')
+        menu: () => import('../components/NavbarComponent.vue')
       },
       meta: {
         layout: 'mainLaout'
@@ -109,8 +109,8 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       components: {
-        default: () => import('../views/MemberView.vue'),
-        menu: () => import('../components/Navbar.vue')
+        default: () => import('../views/member/MemberView.vue'),
+        menu: () => import('../components/NavbarComponent.vue')
       },
       meta: {
         layout: 'mainLaout'
