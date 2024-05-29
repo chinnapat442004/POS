@@ -131,6 +131,20 @@ function confirmLogout() {
           value="member"
           :to="{ name: 'member' }"
         ></v-list-item>
+        <v-list-item
+          class="list"
+          prepend-icon="mdi-archive-outline"
+          title="Raw Material"
+          value="raw-material"
+          :to="{ name: 'raw-material' }"
+        ></v-list-item>
+        <v-list-item
+          class="list"
+          prepend-icon="mdi-sale"
+          title="Promotion"
+          value="promotion"
+          :to="{ name: 'promotion' }"
+        ></v-list-item>
       </v-list-group>
 
       <v-list-item
