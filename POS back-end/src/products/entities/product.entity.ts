@@ -1,3 +1,4 @@
+import { PromotionDetail } from 'src/promotions/entities/promotionDetail';
 import { ReceiptItem } from 'src/receipts/entities/receipt-item.entity';
 import {
   Entity,
@@ -33,4 +34,10 @@ export class Product {
 
   @OneToMany(() => ReceiptItem, (receiptItem) => receiptItem.product)
   receiptItems: ReceiptItem[];
+
+  @OneToMany(
+    () => PromotionDetail,
+    (promotionDetail) => promotionDetail.product,
+  )
+  promotionDetails: PromotionDetail[];
 }
