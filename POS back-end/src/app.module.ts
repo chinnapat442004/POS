@@ -17,13 +17,28 @@ import { Member } from './members/entities/member.entity';
 
 import { BranchesModule } from './branches/branches.module';
 import { Branch } from './branches/entities/branch.entity';
+import { PromotionsModule } from './promotions/promotions.module';
+import { Promotion } from './promotions/entities/promotion.entity';
+import { PromotionDetail } from './promotions/entities/promotionDetail';
+import { RawMaterialsModule } from './raw-materials/raw-materials.module';
+import { RawMaterial } from './raw-materials/entities/raw-material.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database.sqlite',
-      entities: [Product, Receipt, Employee, ReceiptItem, Member, Branch],
+      entities: [
+        Product,
+        Receipt,
+        Employee,
+        ReceiptItem,
+        Member,
+        Branch,
+        Promotion,
+        PromotionDetail,
+        RawMaterial,
+      ],
       synchronize: true,
     }),
     ServeStaticModule.forRoot({
@@ -36,6 +51,8 @@ import { Branch } from './branches/entities/branch.entity';
     MembersModule,
     MembersModule,
     BranchesModule,
+    PromotionsModule,
+    RawMaterialsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
