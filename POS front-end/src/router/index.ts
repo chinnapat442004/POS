@@ -115,6 +115,34 @@ const router = createRouter({
       meta: {
         layout: 'mainLaout'
       }
+    },
+    {
+      path: '/promotion',
+      name: 'promotion',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      components: {
+        default: () => import('../views/promotion/PromotionView.vue'),
+        menu: () => import('../components/NavbarComponent.vue')
+      },
+      meta: {
+        layout: 'mainLaout'
+      }
+    },
+    {
+      path: '/raw-material',
+      name: 'raw-material',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      components: {
+        default: () => import('../views/rawMaterial/RawMaterialView.vue'),
+        menu: () => import('../components/NavbarComponent.vue')
+      },
+      meta: {
+        layout: 'mainLaout'
+      }
     }
     // {
     //   path: '/login',
