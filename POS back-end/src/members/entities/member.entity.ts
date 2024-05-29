@@ -28,6 +28,8 @@ export class Member {
   @UpdateDateColumn()
   updated: Date;
 
-  @OneToMany(() => Receipt, (receipt) => receipt.member)
+  @OneToMany(() => Receipt, (receipt) => receipt.member, {
+    onDelete: 'CASCADE',
+  })
   receipts: Receipt[];
 }

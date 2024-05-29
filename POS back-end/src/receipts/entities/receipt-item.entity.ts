@@ -29,6 +29,8 @@ export class ReceiptItem {
   @ManyToOne(() => Product, (product) => product.receiptItems)
   product: Product;
 
-  @ManyToOne(() => Receipt, (receipt) => receipt.receiptItems)
+  @ManyToOne(() => Receipt, (receipt) => receipt.receiptItems, {
+    onDelete: 'CASCADE',
+  })
   receipt: Receipt;
 }

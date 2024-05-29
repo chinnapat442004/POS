@@ -17,7 +17,7 @@ export class ReceiptsService {
   ) {}
   async create(createReceiptDto: CreateReceiptDto) {
     const receipt = new Receipt();
-    receipt.total = 0;
+    receipt.before_total = 0;
     receipt.receiptItems = [];
     receipt.employee = null;
     for (const item of createReceiptDto.receiptItems) {
@@ -28,7 +28,10 @@ export class ReceiptsService {
 
       await this.receiptItemsRepository.save(receiptItem);
       receipt.receiptItems.push(receiptItem);
-      receipt.total += receiptItem.total;
+      receipt.before_total += receiptItem.total;
+      receipt.discount = 0;
+
+      receipt.after_total = receipt.before_total - receipt.discount;
       receipt.employee = await createReceiptDto.employee;
     }
 

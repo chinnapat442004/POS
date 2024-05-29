@@ -36,7 +36,9 @@ export class Employee {
   @UpdateDateColumn()
   updated: Date;
 
-  @OneToMany(() => Receipt, (receipt) => receipt.employee)
+  @OneToMany(() => Receipt, (receipt) => receipt.employee, {
+    onDelete: 'CASCADE',
+  })
   receipts: Receipt[];
 
   @ManyToOne(() => Branch, (branch) => branch.employees)
