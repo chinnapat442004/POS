@@ -17,7 +17,13 @@ export class Receipt {
   id: number;
 
   @Column()
-  total: number;
+  before_total: number;
+
+  @Column('decimal', { precision: 6, scale: 2 })
+  discount: number;
+
+  @Column()
+  after_total: number;
 
   @CreateDateColumn()
   created: Date;
@@ -25,12 +31,16 @@ export class Receipt {
   @UpdateDateColumn()
   updated: Date;
 
-  @OneToMany(() => ReceiptItem, (receiptItems) => receiptItems.receipt)
+  @OneToMany(() => ReceiptItem, (receiptItems) => receiptItems.receipt, {
+    onDelete: 'CASCADE',
+  })
   receiptItems: ReceiptItem[];
 
-  @ManyToOne(() => Employee, (employee) => employee.receipts)
+  @ManyToOne(() => Employee, (employee) => employee.receipts, {
+    onDelete: 'CASCADE',
+  })
   employee: Employee;
 
-  @ManyToOne(() => Member, (member) => member.receipts)
+  @ManyToOne(() => Member, (member) => member.receipts, { onDelete: 'CASCADE' })
   member: Member;
 }
