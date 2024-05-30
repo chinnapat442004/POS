@@ -14,6 +14,11 @@ function addPromotion(item: Promotion) {
 }
 
 function updatePromotion(item: Promotion) {
-  return http.patch(`/promotions/${item.id}`)
+  return http.patch(`/promotions/${item.id}`, item)
 }
-export default { getPromotions, getPromotion, addPromotion, updatePromotion }
+
+function removePromotion(item: Promotion) {
+  return http.delete(`/promotions/${item.id}`)
+}
+
+export default { getPromotions, getPromotion, addPromotion, updatePromotion, removePromotion }

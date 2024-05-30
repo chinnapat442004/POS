@@ -3,11 +3,12 @@ import { onMounted, ref, provide } from 'vue'
 import EditedPromotionDialog from './EditedPromotionDialog.vue'
 import { usePromotionStore } from '@/stores/promotion'
 import type { Promotion } from '@/types/Promotion'
+import DeletePromotionDialog from './DeletePromotionDialog.vue'
 
 const promotionStore = usePromotionStore()
 const search = ref('')
 const deleteDialog = ref(false)
-provide('deleteDialog', deleteDialog)
+provide('deletePromotionDialog', deleteDialog)
 
 const promotionDialog = ref(false)
 provide('editedPromotionDialog', promotionDialog)
@@ -15,6 +16,11 @@ provide('editedPromotionDialog', promotionDialog)
 onMounted(async () => {
   await promotionStore.getPromotions()
 })
+
+function deleteItem(item: Promotion) {
+  promotionStore.getPromotion(item)
+  deleteDialog.value = true
+}
 
 function open(item: Promotion) {
   promotionStore.getPromotion(item)
@@ -65,16 +71,7 @@ const headers = [
             ></v-toolbar-title>
           </v-toolbar>
         </template>
-        <template v-slot:[`item.image`]="{ item }">
-          <v-img
-            :src="`http://localhost:3000/images/products/${item.image}`"
-            width="150"
-            height="130"
-            cover
-            style="border-radius: 15px; margin-top: 10px; margin-bottom: 10px; pointer-events: none"
-          >
-          </v-img>
-        </template>
+
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon class="me-2" size="small" @click="open(item)" color="#263238">
             mdi-pencil
@@ -84,4 +81,5 @@ const headers = [
       </v-data-table>
     </v-row>
   </v-card>
+  <DeletePromotionDialog></DeletePromotionDialog>
 </template>
