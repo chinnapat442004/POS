@@ -31,7 +31,10 @@ export class PromotionsService {
     return this.promotionsRepository.save(update);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} promotion`;
+  async remove(id: number) {
+    const promotion = await this.promotionsRepository.findOne({
+      where: { id },
+    });
+    return this.promotionsRepository.remove(promotion);
   }
 }
