@@ -4,18 +4,27 @@ import { useReceiptItemStore } from './receiptItem'
 import receiptService from '@/service/receipt'
 import type { Receipt } from '@/types/Receipt'
 import { format } from 'date-fns'
+import { useLoaderStore } from './loader'
+import { usePromotionStore } from './promotion'
+
+const promotion = ref(false)
+const promotionStore = usePromotionStore()
 
 export const useReceiptStore = defineStore('receipt', () => {
   const receiptItemStore = useReceiptItemStore()
+  const loaderStore = useLoaderStore()
   const receipts = ref(<Receipt[]>[])
 
   const initialRecipt = {
-    total: 0
+    before_total: 0,
+    discount: 0,
+    after_total: 0
   }
 
   const receipt = ref(<Receipt>JSON.parse(JSON.stringify(initialRecipt)))
 
   async function getReceipts() {
+    await loaderStore.doLoad()
     const res = await receiptService.getReceipts()
 
     receipts.value = res.data
@@ -25,6 +34,7 @@ export const useReceiptStore = defineStore('receipt', () => {
         item.created = format(date, 'dd/MM/yyyy HH:mm:ss')
       }
     })
+    await loaderStore.finishLoad()
   }
 
   async function getReceipt(item: Receipt) {
@@ -33,11 +43,28 @@ export const useReceiptStore = defineStore('receipt', () => {
     formatDate()
   }
 
-  function calTotal() {
-    clearReceipt()
+  async function calTotal() {
+    // clearReceipt()
+
+    receipt.value.before_total = 0
     receiptItemStore.receiptItems.forEach((item) => {
-      receipt.value.total += item.total
+      receipt.value.before_total += item.total
     })
+
+    if (promotion.value == true) {
+      if (
+        receipt.value.before_total * promotionStore.editedPromotion.discount_late >=
+        promotionStore.editedPromotion.maxinum
+      ) {
+        receipt.value.discount = await promotionStore.editedPromotion.maxinum
+      } else {
+        const beforeTotal = await receipt.value.before_total
+        receipt.value.discount = await Math.floor(
+          beforeTotal * promotionStore.editedPromotion.discount_late
+        )
+      }
+      receipt.value.after_total = receipt.value.before_total - receipt.value.discount
+    }
   }
 
   async function formatDate() {
@@ -58,9 +85,11 @@ export const useReceiptStore = defineStore('receipt', () => {
   return {
     receipts,
     receipt,
+    promotion,
     calTotal,
     createReceipt,
     getReceipts,
-    getReceipt
+    getReceipt,
+    clearReceipt
   }
 })

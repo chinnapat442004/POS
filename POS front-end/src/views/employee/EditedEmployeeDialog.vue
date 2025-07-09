@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useEmployeeStore } from '@/stores/employee'
 import { inject, ref, type Ref } from 'vue'
-
+import Swal from 'sweetalert2'
 const employeeStore = useEmployeeStore()
 const dialog = inject<Ref<boolean>>('editedEmployeeDialog')
 
@@ -14,8 +14,13 @@ async function save() {
   if (dialog) {
     await employeeStore.addEmployee()
     await employeeStore.getEmployees()
-    await employeeStore.clearEditedEmployee()
     dialog.value = false
+    Swal.fire({
+      title: 'Success',
+      text: 'Your date was saved!',
+      icon: 'success'
+    })
+    await employeeStore.clearEditedEmployee()
   }
 }
 

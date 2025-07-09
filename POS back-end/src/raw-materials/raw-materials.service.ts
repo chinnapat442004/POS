@@ -12,6 +12,13 @@ export class RawMaterialsService {
     private rawMaterialsRepository: Repository<RawMaterial>,
   ) {}
   create(createRawMaterialDto: CreateRawMaterialDto) {
+    if (createRawMaterialDto.quantity >= createRawMaterialDto.minimum) {
+      createRawMaterialDto.status = 'In stock';
+    } else if (createRawMaterialDto.quantity > 0) {
+      createRawMaterialDto.status = 'Row stock';
+    } else {
+      createRawMaterialDto.status = 'Out of stock';
+    }
     return this.rawMaterialsRepository.save(createRawMaterialDto);
   }
 
@@ -25,7 +32,16 @@ export class RawMaterialsService {
 
   async update(id: number, updateRawMaterialDto: UpdateRawMaterialDto) {
     const update = await this.rawMaterialsRepository.findOne({ where: { id } });
+
     const rawMaterial = { ...update, ...updateRawMaterialDto };
+
+    if (rawMaterial.quantity >= rawMaterial.minimum) {
+      rawMaterial.status = 'In stock';
+    } else if (rawMaterial.quantity > 0) {
+      rawMaterial.status = 'Row stock';
+    } else {
+      rawMaterial.status = 'Out of stock';
+    }
     return this.rawMaterialsRepository.save(rawMaterial);
   }
 
@@ -34,5 +50,9 @@ export class RawMaterialsService {
       where: { id },
     });
     return this.rawMaterialsRepository.remove(rawMaterial);
+  }
+
+  async findRawMaterialByStatus(status: string) {
+    return this.rawMaterialsRepository.find({ where: { status } });
   }
 }

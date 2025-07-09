@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
+import { ProductDetail } from 'src/product-detail/entities/product-detail.entity';
 
 @Entity()
 export class Product {
@@ -16,9 +17,6 @@ export class Product {
 
   @Column()
   name: string;
-
-  @Column()
-  price: number;
 
   @Column()
   category: string;
@@ -35,9 +33,20 @@ export class Product {
   @OneToMany(() => ReceiptItem, (receiptItem) => receiptItem.product)
   receiptItems: ReceiptItem[];
 
+  @OneToMany(() => ProductDetail, (productDetail) => productDetail.product)
+  productDetails: ProductDetail[];
+
   @OneToMany(
     () => PromotionDetail,
     (promotionDetail) => promotionDetail.product,
   )
   promotionDetails: PromotionDetail[];
+
+  // @ManyToMany(() => Size)
+  // @JoinTable()
+  // sizes: Size[];
+
+  // @ManyToMany(() => Type)
+  // @JoinTable()
+  // types: Type[];
 }

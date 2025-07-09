@@ -1,4 +1,4 @@
-import type { ReceiptItme } from '@/types/ReceiptItem'
+import type { ReceiptItem } from '@/types/ReceiptItem'
 import http from './http'
 import type { Receipt } from '@/types/Receipt'
 import type { Product } from '@/types/Product'
@@ -15,7 +15,7 @@ type ReceiptDto = {
   employee?: Employee
 }
 
-async function createReceipt(receipt: Receipt, receiptItems: ReceiptItme[]) {
+async function createReceipt(receipt: Receipt, receiptItems: ReceiptItem[]) {
   const receiptDto: ReceiptDto = {
     receiptItems: []
   }

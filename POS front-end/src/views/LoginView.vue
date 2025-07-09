@@ -1,34 +1,59 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
 import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+
 import type { VForm } from 'vuetify/components'
-const router = useRouter()
+const isClickedLogin = ref(false)
 const show = ref(false)
 const loading = ref(false)
 const form = ref<VForm | null>(null)
-function onSubmit() {}
+const submit = ref(false)
+const snackbar = ref(false)
+
 const authStore = useAuthStore()
+
+const loginEmail = (v: string): any => {
+  if (submit.value === true) {
+    if (!v) {
+      isClickedLogin.value = false
+      return 'Please enter your email.'
+    } else if (!authStore.currentEmployee && isClickedLogin.value) {
+      snackbar.value = true
+    }
+  }
+  return true
+}
+const loginPassword = (v: string): any => {
+  if (submit.value === true) {
+    if (!v) {
+      isClickedLogin.value = false
+      return 'Please enter your password.'
+    } else if (!authStore.currentEmployee && isClickedLogin.value) {
+      snackbar.value = true
+    }
+  }
+  return true
+}
+
+async function onSubmit() {
+  submit.value = true
+  await authStore.login()
+  if (authStore.email && authStore.password) {
+    isClickedLogin.value = true
+  }
+
+  const { valid } = await form.value!.validate()
+}
 
 // const emailPattern = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/
 
-async function login() {
-  const { valid } = await form.value!.validate()
-  await authStore.login()
+// async function login() {
+//   const { valid } = await form.value!.validate()
+//   await authStore.login()
 
-  if (!valid) return
-}
+//   if (!valid) return
+// }
 
-const loginRules = (v: string) => {
-  if (!v) {
-    return 'false'
-  } else if (authStore.getCurrentEmployee() === null) {
-    console.log('dfdfs')
-    return 'notpass'
-  }
-
-  return true
-}
 onMounted(async () => {
   localStorage.setItem('employee', '')
   localStorage.setItem('access_token', '')
@@ -43,7 +68,7 @@ onMounted(async () => {
       height="500"
       width="600"
     >
-      <v-form ref="form" @submit.prevent="onSubmit">
+      <v-form ref="form" @submit.prevent="onSubmit()">
         <div style="text-align: center; font-size: 30px; color: white">Login</div>
         <div style="text-align: center">
           <v-avatar size="180">
@@ -55,6 +80,7 @@ onMounted(async () => {
           <div style="font-size: 17px; color: white">Email</div>
           <v-text-field
             class="style"
+            :rules="[loginEmail]"
             :readonly="loading"
             v-model="authStore.email"
             density="compact"
@@ -62,16 +88,14 @@ onMounted(async () => {
             prepend-inner-icon="mdi-email-outline"
             bg-color="blue-grey-lighten-5"
             variant="outlined"
-            :rules="
-              [(email) => !!email.match(emailPattern) || 'Invalid email address'] || loginRules
-            "
+            error--text="blue"
           ></v-text-field>
           <div style="font-size: 17px; color: white" class="align-center justify-space-between">
             Password
           </div>
           <v-text-field
             class="style"
-            :rules="[loginRules]"
+            :rules="[loginPassword]"
             v-model="authStore.password"
             :readonly="loading"
             :append-inner-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
@@ -87,7 +111,6 @@ onMounted(async () => {
           <br />
 
           <v-btn
-            @click="login"
             :loading="loading"
             class="style"
             size="large"
@@ -96,12 +119,20 @@ onMounted(async () => {
             block
             style="background-color: #0d1b2a; color: white"
           >
-            Login
+            
           </v-btn>
         </v-container>
       </v-form>
     </v-card>
   </div>
+
+  <v-snackbar v-model="snackbar" multi-line :timeout="3000" color="white">
+    Incorrect username or password. Please try again.
+
+    <template v-slot:actions>
+      <v-btn color="red" variant="text" @click="snackbar = false"> Close </v-btn>
+    </template>
+  </v-snackbar>
 </template>
 <style>
 .style {

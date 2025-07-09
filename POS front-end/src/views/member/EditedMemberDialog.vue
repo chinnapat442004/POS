@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useMemberStore } from '@/stores/member'
-import { inject, ref, type Ref } from 'vue'
-
+import { inject, type Ref, ref } from 'vue'
+import Swal from 'sweetalert2'
 const memberStore = useMemberStore()
 const dialog = inject<Ref<boolean>>('editedMemberDialog')
+const page = inject<Ref<boolean>>('memberPage')
 
 async function close() {
   if (dialog) dialog.value = false
@@ -15,6 +16,12 @@ async function save() {
     await memberStore.addMember()
     await memberStore.getMembers()
     dialog.value = false
+    Swal.fire({
+      title: 'Success',
+      text: 'Your date was saved!',
+      icon: 'success'
+    })
+    await memberStore.clearEditedMember()
   }
 }
 
@@ -35,7 +42,7 @@ async function openDialog() {
       font-style: normal;
     "
   >
-    <template v-slot:activator="{ props }">
+    <template v-if="page === true" v-slot:activator="{ props }">
       <v-btn
         class="mb-2"
         dark
@@ -47,9 +54,10 @@ async function openDialog() {
         >Add New
       </v-btn>
     </template>
+
     <v-card>
       <v-card-title style="background-color: #415a77; color: white">
-        <span class="style"> Employee </span>
+        <span class="style"> Member </span>
       </v-card-title>
 
       <v-card-text>

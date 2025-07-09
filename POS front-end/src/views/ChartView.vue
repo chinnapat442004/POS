@@ -114,21 +114,32 @@ ChartJS.register(
 <template>
   <v-container>
     <v-row>
-      <v-col md="6">
-        <v-card
-          height="400px"
-          style="border-radius: 15px; display: flex; justify-content: center"
-          elevation="7"
+      <v-col md="3">
+        <v-card height="140"
+          ><v-sheet height="140" width="100" color="#CE93D8"
+            ><v-icon icon="mdi-account" color="white" size="60"></v-icon>member</v-sheet
+          ></v-card
         >
+      </v-col>
+      <v-col md="3">
+        <v-card height="140"><v-sheet height="140" width="100" color="#B39DDB"> </v-sheet></v-card>
+      </v-col>
+      <v-col md="3">
+        <v-card height="140"><v-sheet height="140" width="100" color="#9FA8DA"></v-sheet></v-card>
+      </v-col>
+      <v-col md="3">
+        <v-card height="140"><v-sheet height="140" width="100" color="#90CAF9"></v-sheet></v-card>
+      </v-col>
+
+      <v-col md="6">
+        <v-card height="400px" style="display: flex; justify-content: center">
           <Pie id="my-chart-id" :options="chartOptions" :data="chartData" /></v-card
       ></v-col>
       <v-col md="6">
-        <v-card height="400px" style="border-radius: 15px" elevation="7">
-          <PolarArea :data="data2" :options="options2" /></v-card
+        <v-card height="400px"> <PolarArea :data="data2" :options="options2" /></v-card
       ></v-col>
       <v-col md="12">
-        <v-card height="500px" style="border-radius: 15px" elevation="7">
-          <Bar :data="data" :options="options" /></v-card
+        <v-card height="500px"> <Bar :data="data" :options="options" /></v-card
       ></v-col>
     </v-row>
   </v-container>

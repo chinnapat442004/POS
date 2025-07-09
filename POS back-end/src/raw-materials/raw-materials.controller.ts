@@ -29,7 +29,10 @@ export class RawMaterialsController {
   findOne(@Param('id') id: string) {
     return this.rawMaterialsService.findOne(+id);
   }
-
+  @Get('status/:status')
+  findRawmaterialByStatus(@Param('status') status: string) {
+    return this.rawMaterialsService.findRawMaterialByStatus(status);
+  }
   @Patch(':id')
   update(
     @Param('id') id: string,

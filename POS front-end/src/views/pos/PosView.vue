@@ -4,31 +4,49 @@ import { useReceiptStore } from '@/stores/receipt'
 import { useReceiptItemStore } from '@/stores/receiptItem'
 import type { Product } from '@/types/Product'
 import type { ReceiptItem } from '@/types/ReceiptItem'
-import { provide } from 'vue'
+import { provide, watch } from 'vue'
 import ConfirmCleardialog from './ConfirmCleardialog.vue'
-import ReceiptDialog from './ReceiptDialog.vue'
 import { onMounted, ref } from 'vue'
 import { useMemberStore } from '@/stores/member'
+import PromotionDialog from './PromotionDialog.vue'
+import PaymentDialog from './PaymentDialog.vue'
+import EditedMemberDialog from '../member/EditedMemberDialog.vue'
+import ProductDialog from './ProductDialog.vue'
+import { useSizeStore } from '@/stores/size'
+import { useTypeStore } from '@/stores/types'
 
+const content = ref(0)
 const productStore = useProductStore()
 const receiptItemStore = useReceiptItemStore()
 const receiptStore = useReceiptStore()
 const memberStore = useMemberStore()
+const sizeStore = useSizeStore()
+const typeStore = useTypeStore()
 
 const dialog = ref(false)
-const receiptDialog = ref(false)
+const promotionDialog = ref(false)
+const paymentDialog = ref(false)
+const editedMemberDialog = ref(false)
+const productDialog = ref(false)
 const phone = ref()
+const tab = ref(null)
+const snackbar = ref(false)
+const text = 'Please select product'
+
 provide('clearDialog', dialog)
-provide('receiptDialog', receiptDialog)
+provide('promotionDialog', promotionDialog)
+provide('paymentDialog', paymentDialog)
+provide('editedMemberDialog', editedMemberDialog)
+provide('productDialog', productDialog)
 
 onMounted(async () => {
   await productStore.getProducts()
 })
 
-function openReceipt() {
-  receiptStore.createReceipt()
+watch(content, function calContent() {})
 
-  receiptDialog.value = true
+function openPromotionDialog() {
+  promotionDialog.value = true
 }
 
 async function findMember(item: string) {
@@ -41,8 +59,6 @@ function selectReceiptItem(p: Product) {
   receiptItemStore.addReceiptItem(receiptItemStore.receiptItem)
   receiptItemStore.clear()
 }
-
-const tab = ref(null)
 
 function minus(item: ReceiptItem) {
   item.quantity -= 1
@@ -67,15 +83,38 @@ function remove(item: ReceiptItem) {
 }
 
 function clearDialog() {
-  dialog.value = true
+  if (!receiptItemStore.receiptItems[0]) {
+    snackbar.value = true
+  } else {
+    dialog.value = true
+  }
+}
+
+function openPaymentDialog() {
+  if (!receiptItemStore.receiptItems[0]) {
+    snackbar.value = true
+  } else {
+    paymentDialog.value = true
+  }
+}
+
+function openMemberDialog() {
+  editedMemberDialog.value = true
+}
+
+async function openProductDialog(p: Product) {
+  await typeStore.getTypes()
+  await sizeStore.getSizes()
+  productStore.editedProduct = JSON.parse(JSON.stringify(p))
+  productDialog.value = true
 }
 </script>
 <template>
   <v-container>
     <v-row>
-      <v-col md="6">
+      <v-col md="7">
         <v-card
-          height="675"
+          height="94vh"
           style="background-color: white; border-radius: 10px; overflow-y: auto"
           elevation="5"
         >
@@ -98,18 +137,31 @@ function clearDialog() {
                   >
                     <v-card
                       elevation="5"
-                      width="160"
-                      height="180"
+                      width="190"
+                      height="230"
                       style="border-radius: 15px; background-color: #e1e5f2"
-                      @click="selectReceiptItem(item)"
-                      ><v-img
+                    >
+                      <v-img
                         :src="`http://localhost:3000/images/products/${item.image}`"
                         height="150"
-                        width="160"
+                        width="190"
                         cover
                         style="pointer-events: none"
                       ></v-img>
-                      <div style="text-align: center; margin-top: 3px">{{ item.name }}</div>
+
+                      <div style="text-align: center; margin-top: 3px; margin-bottom: 5px">
+                        {{ item.name }}
+                      </div>
+
+                      <div style="display: flex; justify-content: center">
+                        <v-btn
+                          width="150"
+                          style="border-radius: 20px"
+                          color="#599c6a"
+                          @click="openProductDialog(item)"
+                          >Add</v-btn
+                        >
+                      </div>
                     </v-card>
                   </v-col>
                 </v-row></v-container
@@ -183,14 +235,13 @@ function clearDialog() {
         </v-card>
       </v-col>
 
-      <v-col md="6"
+      <v-col md="5"
         ><v-card height="auto" elevation="5"
-          ><v-table height="316" style="background-color: white" class="no-header-scroll">
+          ><v-table height="43vh" style="background-color: white" class="no-header-scroll">
             <thead style="background-color: #0d1b2a; color: white">
               <tr>
                 <th>Name</th>
                 <th>Unit Price</th>
-
                 <th>Quantity</th>
                 <th>Total</th>
                 <th></th>
@@ -234,10 +285,10 @@ function clearDialog() {
         >
         <div style="height: 24px"></div>
 
-        <v-card height="125" elevation="5">
+        <v-card elevation="5" height="14vh">
           <v-container>
             <v-row no-gutters>
-              <v-col md="6">
+              <v-col sm="10" md="5">
                 <v-text-field
                   label="Search Member"
                   variant="solo"
@@ -249,8 +300,13 @@ function clearDialog() {
                   single-line
                 ></v-text-field>
               </v-col>
+              <v-col sm="2" md="1"
+                ><v-icon @click="openMemberDialog()" size="35" color="primary"
+                  >mdi-account-multiple-plus</v-icon
+                >
+              </v-col>
 
-              <v-col md="6">
+              <v-col sm="8" md="4">
                 <div style="height: 100%; text-align: center">
                   Name :
                   {{ memberStore.memberPhone.name }}
@@ -259,13 +315,41 @@ function clearDialog() {
                   {{ memberStore.memberPhone.point }}
                 </div>
               </v-col>
+              <v-col sm="4" md="2"> <v-btn></v-btn></v-col>
             </v-row>
           </v-container>
         </v-card>
         <div style="height: 24px"></div>
-        <v-card height="125" elevation="5">
-          <div>Total {{ receiptStore.receipt.total }} Baht</div>
+        <v-card height="21vh" elevation="5">
+          <v-container>
+            <v-row>
+              <v-col md="6" style="text-align: center">
+                <v-badge color="error" content="9+">
+                  <v-btn @click="openPromotionDialog()">promotion</v-btn>
+                </v-badge>
+
+                <div style="margin-top: 25px">No promotion has been used yet.</div>
+              </v-col>
+              <v-col md="6">
+                <div style="padding: 20px 30px 0 30px">
+                  <div style="display: flex; justify-content: space-between">
+                    <div>Sub Total</div>
+                    <div>{{ receiptStore.receipt.before_total }}</div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between">
+                    <div>Discount</div>
+                    <div style="color: red">-{{ receiptStore.receipt.discount }}</div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between">
+                    <div>Total</div>
+                    <div>{{ receiptStore.receipt.after_total }}</div>
+                  </div>
+                </div>
+              </v-col>
+            </v-row>
+          </v-container>
         </v-card>
+
         <div style="height: 24px"></div>
         <v-row>
           <v-col md="6">
@@ -277,12 +361,8 @@ function clearDialog() {
             </v-btn></v-col
           >
           <v-col md="6"
-            ><v-btn
-              width="100%"
-              style="background-color: #588157; color: white"
-              @click="openReceipt()"
-            >
-              save</v-btn
+            ><v-btn width="100%" color="#599c6a" style="color: white" @click="openPaymentDialog()">
+              Next</v-btn
             ></v-col
           >
         </v-row>
@@ -290,5 +370,18 @@ function clearDialog() {
     </v-row>
   </v-container>
   <ConfirmCleardialog></ConfirmCleardialog>
-  <ReceiptDialog></ReceiptDialog>
+
+  <PromotionDialog></PromotionDialog>
+  <PaymentDialog></PaymentDialog>
+  <EditedMemberDialog></EditedMemberDialog>
+  <ProductDialog></ProductDialog>
+
+  <v-snackbar v-model="snackbar" multi-line :timeout="1500" color="white">
+    {{ text }}
+
+    <template v-slot:actions>
+      <v-btn color="red" variant="text" @click="snackbar = false"> Close </v-btn>
+    </template>
+  </v-snackbar>
 </template>
+<style scoped></style>

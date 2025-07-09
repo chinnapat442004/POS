@@ -1,11 +1,13 @@
 import type { Employee } from './Employee'
 
-import type { ReceiptItme } from './ReceiptItem'
+import type { ReceiptItem } from './ReceiptItem'
 
 type Receipt = {
   id: number
-  total: number
-  receiptItems?: ReceiptItme[]
+  before_total: number
+  discount: number
+  after_total: number
+  receiptItems?: ReceiptItem[]
   created?: string
   employee?: Employee
 }

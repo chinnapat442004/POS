@@ -1,21 +1,12 @@
 <script setup lang="ts">
 import { usePromotionStore } from '@/stores/promotion'
-import { inject, ref, type Ref } from 'vue'
+import { inject, type Ref } from 'vue'
+import Swal from 'sweetalert2'
 const promotionStore = usePromotionStore()
 const dialog = inject<Ref<boolean>>('editedPromotionDialog')
 
-// async function save() {
-//   if (dialog) {
-//     await productStore.addProcduct()
-//     await productStore.getProducts()
-//     dialog.value = false
-//     await productStore.clear()
-//   }
-// }
-
 async function openDialog() {
   if (dialog) dialog.value = true
-  //   await productStore.clear()
 }
 
 function close() {
@@ -26,10 +17,14 @@ function close() {
 async function save() {
   await promotionStore.addPromotion()
   await promotionStore.getPromotions()
-  promotionStore.clear()
   if (dialog) dialog.value = false
+  Swal.fire({
+    title: 'Success',
+    text: 'Your date was saved!',
+    icon: 'success'
+  })
+  promotionStore.clear()
 }
-const items = ref(['drink', 'food', 'dessert'])
 </script>
 
 <template>
@@ -82,9 +77,10 @@ const items = ref(['drink', 'food', 'dessert'])
               <v-text-field
                 style="background: white; color: #0d1b2a; border-radius: 15px"
                 bg-color="blue-grey-lighten-5"
+                v-model="promotionStore.editedPromotion.start_date"
                 class="style"
                 variant="outlined"
-                type="date"
+                type="Date"
               ></v-text-field
             ></v-col>
             <v-col md="6">
@@ -93,10 +89,11 @@ const items = ref(['drink', 'food', 'dessert'])
                 style="background: white; color: #0d1b2a; border-radius: 15px"
                 class="style"
                 variant="outlined"
+                v-model="promotionStore.editedPromotion.end_date"
                 bg-color="blue-grey-lighten-5"
                 hide-details
                 single-line
-                type="date"
+                type="Date"
               ></v-text-field
             ></v-col>
 

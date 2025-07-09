@@ -1,4 +1,3 @@
-import { TurnLeft } from '@mui/icons-material'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -14,7 +13,7 @@ const router = createRouter({
         default: () => import('../views/LoginView.vue')
       },
       meta: {
-        layout: 'fullLaout'
+        layout: 'fullLayout'
       }
     },
     {
@@ -29,7 +28,7 @@ const router = createRouter({
       },
 
       meta: {
-        layout: 'mainLaout'
+        layout: 'mainLayout'
       }
     },
     {
@@ -43,7 +42,7 @@ const router = createRouter({
         menu: () => import('../components/NavbarComponent.vue')
       },
       meta: {
-        layout: 'mainLaout'
+        layout: 'mainLayout'
       }
     },
     {
@@ -57,7 +56,7 @@ const router = createRouter({
         menu: () => import('../components/NavbarComponent.vue')
       },
       meta: {
-        layout: 'mainLaout'
+        layout: 'mainLayout'
       }
     },
     {
@@ -71,7 +70,7 @@ const router = createRouter({
         menu: () => import('../components/NavbarComponent.vue')
       },
       meta: {
-        layout: 'mainLaout'
+        layout: 'mainLayout'
       }
     },
     {
@@ -85,7 +84,7 @@ const router = createRouter({
         menu: () => import('../components/NavbarComponent.vue')
       },
       meta: {
-        layout: 'mainLaout'
+        layout: 'mainLayout'
       }
     },
     {
@@ -99,7 +98,7 @@ const router = createRouter({
         menu: () => import('../components/NavbarComponent.vue')
       },
       meta: {
-        layout: 'mainLaout'
+        layout: 'mainLayout'
       }
     },
     {
@@ -113,7 +112,7 @@ const router = createRouter({
         menu: () => import('../components/NavbarComponent.vue')
       },
       meta: {
-        layout: 'mainLaout'
+        layout: 'mainLayout'
       }
     },
     {
@@ -127,7 +126,8 @@ const router = createRouter({
         menu: () => import('../components/NavbarComponent.vue')
       },
       meta: {
-        layout: 'mainLaout'
+        layout: 'mainLayout',
+        role: ['admin', 'manager']
       }
     },
     {
@@ -141,7 +141,35 @@ const router = createRouter({
         menu: () => import('../components/NavbarComponent.vue')
       },
       meta: {
-        layout: 'mainLaout'
+        layout: 'mainLayout'
+      }
+    },
+    {
+      path: '/stock',
+      name: 'stock',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      components: {
+        default: () => import('../views/stock/StockView.vue'),
+        menu: () => import('../components/NavbarComponent.vue')
+      },
+      meta: {
+        layout: 'mainLayout'
+      }
+    },
+    {
+      path: '/utility-bill',
+      name: 'utility-bill',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      components: {
+        default: () => import('../views/utility bill/UtilityBillView.vue'),
+        menu: () => import('../components/NavbarComponent.vue')
+      },
+      meta: {
+        layout: 'mainLayout'
       }
     }
     // {
@@ -166,10 +194,20 @@ function isAuthenticated() {
   return false
 }
 
-router.beforeEach(async (to, form) => {
+router.beforeEach(async (to) => {
   if (!isAuthenticated() && to.name !== 'login') {
     return { name: 'login' }
   }
 })
 
+// router.beforeEach((to, from, next) => {
+//   const userRole = localStorage.getItem('role') // ดึง role ของผู้ใช้จาก local storage
+
+//   // ตรวจสอบว่า role ของผู้ใช้เป็น 'admin' หรือ 'editor'
+//   if (to.meta.role && to.meta.role.includes(userRole)) {
+//     next() // อนุญาตให้เข้าถึง route นั้น
+//   } else {
+//     next('/unauthorized') // หาก role ไม่ตรงให้ redirect ไปหน้า unauthorized
+//   }
+// })
 export default router

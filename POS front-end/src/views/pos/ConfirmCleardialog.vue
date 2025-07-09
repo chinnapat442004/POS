@@ -16,7 +16,7 @@ function closeDelete() {
 async function clearReceiptItems() {
   if (dialog) {
     receiptItemStore.receiptItems = []
-    receiptStore.receipt.total = 0
+    receiptStore.clearReceipt()
     dialog.value = false
   }
 }

@@ -5,7 +5,7 @@ import { inject, type Ref } from 'vue'
 
 const productStore = useProductStore()
 
-const dialog = inject<Ref<boolean>>('deleteDialog')
+const dialog = inject<Ref<boolean>>('deleteProductDialog')
 
 function closeDelete() {
   if (dialog) dialog.value = false

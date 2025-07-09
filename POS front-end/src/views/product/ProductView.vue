@@ -4,17 +4,23 @@ import { onMounted, ref, provide } from 'vue'
 import EditedProductDialog from './EditedProductDialog.vue'
 import type { Product } from '@/types/Product'
 import DeleteProductDialog from './DeleteProductDialog.vue'
+import { useSizeStore } from '@/stores/size'
+import { useTypeStore } from '@/stores/types'
 
 const productStore = useProductStore()
+const sizeStore = useSizeStore()
+const typeStore = useTypeStore()
 const search = ref('')
 const deleteDialog = ref(false)
-provide('deleteDialog', deleteDialog)
+provide('deleteProductDialog', deleteDialog)
 
 const dialog = ref(false)
 provide('editedProcuctDialog', dialog)
 
 onMounted(async () => {
   await productStore.getProducts()
+  await sizeStore.getSizes()
+  await typeStore.getTypes()
 })
 
 function open(item: Product) {
@@ -35,15 +41,43 @@ const headers = [
   { title: 'Id', value: 'id', key: 'id' },
   { title: 'Image', value: 'image', key: 'image' },
   { title: 'Name', value: 'name', key: 'name' },
-  { title: 'Price', value: 'price', key: 'price' },
+
+  {
+    title: 'ร้อน',
+    align: 'center',
+
+    children: [
+      { title: 'M', value: 'price' },
+      { title: 'L', value: 'price' }
+    ]
+  },
+  {
+    title: 'เย็น',
+    align: 'center',
+
+    children: [
+      { title: 'M', value: 'price' },
+      { title: 'L', value: 'price' }
+    ]
+  },
+  {
+    title: 'ปั่น',
+    align: 'center',
+
+    children: [
+      { title: 'M', value: 'price' },
+      { title: 'L', value: 'price' }
+    ]
+  },
+
   { title: 'Actions', key: 'actions', sortable: false }
 ]
 </script>
 <template>
-  <v-card elevation="5" height="648" style="margin: 30px 50px">
+  <v-card elevation="5" height="93vh" style="margin: 30px 50px">
     <v-row>
       <v-data-table
-        height="530"
+        height="78vh"
         :headers="headers"
         :items="productStore.products"
         :search="search"
@@ -74,6 +108,7 @@ const headers = [
             ></v-toolbar-title>
           </v-toolbar>
         </template>
+
         <template v-slot:[`item.image`]="{ item }">
           <v-img
             :src="`http://localhost:3000/images/products/${item.image}`"

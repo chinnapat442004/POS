@@ -13,21 +13,28 @@ export class ProductsService {
   create(createProductDto: CreateProductDto) {
     const product = new Product();
     product.name = createProductDto.name;
-    product.price = parseFloat(createProductDto.price);
+    product[0].productDetails.price = parseFloat(createProductDto.price);
     if (createProductDto.image && createProductDto.image !== '') {
       product.image = createProductDto.image;
     }
+
     product.category = createProductDto.category;
+    product[0].productDetails.sizes = JSON.parse(createProductDto.sizes);
+    product[0].productDetails.types = JSON.parse(createProductDto.types);
+    console.log(product);
     return this.productsRepository.save(product);
   }
 
   findAll() {
-    return this.productsRepository.find();
+    return this.productsRepository.find({
+      relations: { productDetails: { type: true, size: true } },
+    });
   }
 
   findOne(id: number) {
     return this.productsRepository.findOne({
       where: { id },
+      relations: { productDetails: true },
     });
   }
 
@@ -37,12 +44,17 @@ export class ProductsService {
     });
 
     product.name = updateProductDto.name;
-    product.price = parseFloat(updateProductDto.price);
+    product[0].productDetails.price = parseFloat(updateProductDto.price);
     product.category = updateProductDto.category;
     if (product.image && product.image != '') {
       product.image = updateProductDto.image;
     }
     product.image = updateProductDto.image;
+    product[0].productDetails.sizes = JSON.parse(updateProductDto.sizes);
+    product[0].productDetails.type = JSON.parse(updateProductDto.types);
+
+    console.log(product);
+
     return this.productsRepository.save(product);
   }
 

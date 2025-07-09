@@ -20,6 +20,8 @@ onMounted(async () => {
   await receiptStore.getReceipts()
 })
 
+const role = localStorage.getItem('role')
+
 async function open(item: Receipt) {
   await receiptStore.getReceipt(item)
 

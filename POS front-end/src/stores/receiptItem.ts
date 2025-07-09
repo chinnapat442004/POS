@@ -1,4 +1,4 @@
-import type { ReceiptItme } from '@/types/ReceiptItem'
+import type { ReceiptItem } from '@/types/ReceiptItem'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
@@ -7,7 +7,7 @@ import { useReceiptStore } from './receipt'
 
 export const useReceiptItemStore = defineStore('receiptItem', () => {
   const receiptStore = useReceiptStore()
-  const initialReceiptItem: ReceiptItme = {
+  const initialReceiptItem: ReceiptItem = {
     quantity: 1,
     total: 0,
     product: {
@@ -17,15 +17,15 @@ export const useReceiptItemStore = defineStore('receiptItem', () => {
       category: ''
     }
   }
-  const receiptItems = ref(<ReceiptItme[]>[])
+  const receiptItems = ref(<ReceiptItem[]>[])
 
-  const receiptItem = ref(<ReceiptItme>JSON.parse(JSON.stringify(initialReceiptItem)))
+  const receiptItem = ref(<ReceiptItem>JSON.parse(JSON.stringify(initialReceiptItem)))
 
   function addProduct(product: Product) {
     receiptItem.value.product = product
   }
 
-  async function addReceiptItem(receiptItem: ReceiptItme) {
+  async function addReceiptItem(receiptItem: ReceiptItem) {
     const index = receiptItems.value.findIndex(
       (item) => item.product?.id === receiptItem.product?.id
     )
@@ -49,6 +49,7 @@ export const useReceiptItemStore = defineStore('receiptItem', () => {
   return {
     receiptItems,
     receiptItem,
+
     addProduct,
     addReceiptItem,
     clear

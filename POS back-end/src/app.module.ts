@@ -22,6 +22,13 @@ import { Promotion } from './promotions/entities/promotion.entity';
 import { PromotionDetail } from './promotions/entities/promotionDetail';
 import { RawMaterialsModule } from './raw-materials/raw-materials.module';
 import { RawMaterial } from './raw-materials/entities/raw-material.entity';
+import { BillsModule } from './bills/bills.module';
+import { Bill } from './bills/entities/bill.entity';
+import { BillDetail } from './bills/entities/billDetail.entity';
+import { Size } from './products/entities/size.entity';
+import { Type } from './products/entities/type.entity';
+import { ProductDetailModule } from './product-detail/product-detail.module';
+import { ProductDetail } from './product-detail/entities/product-detail.entity';
 
 @Module({
   imports: [
@@ -29,7 +36,10 @@ import { RawMaterial } from './raw-materials/entities/raw-material.entity';
       type: 'sqlite',
       database: 'database.sqlite',
       entities: [
+        Bill,
+        BillDetail,
         Product,
+        ProductDetail,
         Receipt,
         Employee,
         ReceiptItem,
@@ -38,6 +48,8 @@ import { RawMaterial } from './raw-materials/entities/raw-material.entity';
         Promotion,
         PromotionDetail,
         RawMaterial,
+        Size,
+        Type,
       ],
       synchronize: true,
     }),
@@ -45,6 +57,7 @@ import { RawMaterial } from './raw-materials/entities/raw-material.entity';
       rootPath: join(__dirname, '..', 'public'),
     }),
     ProductsModule,
+    ProductDetailModule,
     ReceiptsModule,
     EmployeesModule,
     AuthModule,
@@ -53,6 +66,8 @@ import { RawMaterial } from './raw-materials/entities/raw-material.entity';
     BranchesModule,
     PromotionsModule,
     RawMaterialsModule,
+    BillsModule,
+    ProductDetailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -14,6 +14,8 @@ const deleteDialog = ref(false)
 provide('deleteMemberDialog', deleteDialog)
 const editedDialog = ref(false)
 provide('editedMemberDialog', editedDialog)
+const page = ref(true)
+provide('memberPage', page)
 
 function deleteItem(item: Member) {
   memberStore.getMember(item)
@@ -38,10 +40,10 @@ const headers = [
 ]
 </script>
 <template>
-  <v-card elevation="5" height="648" style="margin: 30px 50px">
+  <v-card elevation="5" height="93vh" style="margin: 30px 50px">
     <v-row>
       <v-data-table
-        height="530"
+        height="78vh"
         :headers="headers"
         :items="memberStore.members"
         :search="search"

@@ -2,8 +2,10 @@ import type { Product } from '@/types/Product'
 import { defineStore } from 'pinia'
 import productService from '@/service/product'
 import { ref } from 'vue'
+import { useLoaderStore } from './loader'
 
 export const useProductStore = defineStore('product', () => {
+  const loaderStore = useLoaderStore()
   const products = ref<Product[]>([])
 
   const labels = ref()
@@ -14,14 +16,18 @@ export const useProductStore = defineStore('product', () => {
     price: 0,
     category: '',
     image: 'noimage.jpg',
-    files: []
+    files: [],
+    sizes: [],
+    types: []
   }
 
   const editedProduct = ref(<Product & { files: File[] }>JSON.parse(JSON.stringify(initialProduct)))
 
   async function getProducts() {
+    await loaderStore.doLoad()
     const res = await productService.getProducts()
     products.value = res.data
+    await loaderStore.finishLoad()
   }
 
   async function getProduct(product: Product) {
@@ -48,6 +54,7 @@ export const useProductStore = defineStore('product', () => {
   }
 
   async function getTopProduct() {
+    await loaderStore.doLoad()
     const res = await productService.getTopProduct()
 
     labels.value = res.data.map((item: any) => {
@@ -57,6 +64,7 @@ export const useProductStore = defineStore('product', () => {
     data.value = res.data.map((item: any) => {
       return item.qty
     })
+    await loaderStore.finishLoad()
   }
   return {
     getProducts,

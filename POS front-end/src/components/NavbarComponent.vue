@@ -14,7 +14,7 @@ provide('logoutDialog', dialog)
 onMounted(async () => {
   await authStore.getCurrentEmployee()
 })
-
+const role = localStorage.getItem('role')
 function confirmLogout() {
   dialog.value = true
 }
@@ -64,7 +64,7 @@ function confirmLogout() {
               <v-divider class="my-3"></v-divider>
               <v-btn variant="text" rounded> Edit Account </v-btn>
               <v-divider class="my-3"></v-divider>
-              <v-btn variant="text" rounded> Disconnect </v-btn>
+              <v-btn variant="text" rounded @click="confirmLogout"> Log Out</v-btn>
             </div>
           </v-card-text>
         </v-card>
@@ -79,14 +79,24 @@ function confirmLogout() {
 
     <v-list density="default" nav>
       <v-list-item
+        v-if="role === 'staff' || role === 'owner'"
         class="list"
         prepend-icon="mdi-coffee"
         title="Point of Sale"
         value="pos"
         :to="{ name: 'pos' }"
       ></v-list-item>
+      <v-list-item
+        v-if="role === 'staff' || role === 'owner'"
+        class="list"
+        prepend-icon="mdi-package-check"
+        title="Stock"
+        value="stock"
+        :to="{ name: 'stock' }"
+      ></v-list-item>
 
       <v-list-item
+        v-if="role === 'staff' || role === 'owner'"
         class="list"
         prepend-icon="mdi-history"
         title="History"
@@ -94,6 +104,7 @@ function confirmLogout() {
         :to="{ name: 'history' }"
       ></v-list-item>
       <v-list-item
+        v-if="role === 'staff' || role === 'owner'"
         class="list"
         prepend-icon="mdi-clock-check-outline"
         title="Check In Check Out"
@@ -101,7 +112,7 @@ function confirmLogout() {
         :to="{ name: 'check-in' }"
       ></v-list-item>
 
-      <v-list-group value="management">
+      <v-list-group value="management" v-if="role === 'owner'">
         <template v-slot:activator="{ props }">
           <v-list-item
             v-bind="props"
@@ -146,22 +157,23 @@ function confirmLogout() {
           :to="{ name: 'promotion' }"
         ></v-list-item>
       </v-list-group>
-
       <v-list-item
+        v-if="role === 'owner'"
+        background-color="primary"
+        class="list"
+        prepend-icon="mdi-file-document"
+        title="Utility Bill"
+        value="utility-bill"
+        :to="{ name: 'utility-bill' }"
+      ></v-list-item>
+      <v-list-item
+        v-if="role === 'owner'"
+        background-color="primary"
         class="list"
         prepend-icon="mdi-chart-bar"
         title="Chart"
         value="chart"
         :to="{ name: 'chart' }"
-      ></v-list-item>
-
-      <v-list-item
-        style="position: fixed; bottom: 2px; width: 95%"
-        class="list"
-        prepend-icon="mdi-logout"
-        title="Logout"
-        value="employee"
-        @click="confirmLogout"
       ></v-list-item>
     </v-list>
   </v-navigation-drawer>
@@ -171,7 +183,6 @@ function confirmLogout() {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Display:wght@500&family=Varela+Round&display=swap');
 .list {
-  font-family: 'Varela Round', sans-serif;
   font-weight: 600;
   font-style: normal;
   background-color: #e1e5f2;
